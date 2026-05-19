@@ -1,6 +1,53 @@
-module.exports = function renderBodyShell(ctx = {}) {
-  with (ctx) {
+const { ADMIN_MENU_GROUPS, findAdminMenuItem } = require('../layout/menu');
+
+function renderNavItem(item, ADMIN_KEY, activePage) {
+  const isActive = item.id === activePage;
+  const hint = item.hint
+    ? `<small class="nav-hint">${item.hint}</small>`
+    : '';
+  return `
+    <li class="nav-item">
+      <a class="nav-link${isActive ? ' active' : ''}"
+         href="/admin/${item.id}?key=${ADMIN_KEY}"
+         onclick="switchMainTab('${item.id}', '${(item.title || item.label || '').replace(/'/g, "\\'")}'); return false;"
+         id="nav-${item.id}">
+        <i class="nav-icon bi ${item.icon || 'bi-circle'}"></i>
+        <p>
+          <span class="nav-label">${item.label}</span>
+          ${hint}
+        </p>
+      </a>
+    </li>`;
+}
+
+function renderNavGroups(ADMIN_KEY, activePage) {
+  return ADMIN_MENU_GROUPS.map((group) => {
+    const items = (group.items || []).map((item) => renderNavItem(item, ADMIN_KEY, activePage)).join('');
     return `
+    <li class="nav-header">${(group.title || '').toUpperCase()}</li>
+    ${items}`;
+  }).join('');
+}
+
+module.exports = function renderBodyShell(ctx = {}) {
+  const ADMIN_KEY = ctx.ADMIN_KEY || '';
+  const appStats = ctx.appStats || { date: '' };
+  const req = ctx.req || {};
+  const activePage = (() => {
+    try {
+      const pathValue = String((req && (req.path || (req.originalUrl || '').split('?')[0])) || '').toLowerCase();
+      const m = pathValue.match(/^\/admin\/([a-z0-9-]+)$/);
+      if (m && m[1]) {
+        return m[1] === 'packages' ? 'services' : m[1];
+      }
+    } catch (e) { }
+    return 'dashboard';
+  })();
+  const activeItem = findAdminMenuItem(activePage) || findAdminMenuItem('dashboard');
+  const topbarTitle = activeItem ? activeItem.title : 'Dashboard';
+  const topbarIcon = activeItem ? activeItem.icon : 'bi-grid-1x2-fill';
+
+  return `
 </head>
 <body class="hold-transition sidebar-mini layout-fixed layout-navbar-fixed">
 <div class="wrapper">
@@ -9,27 +56,41 @@ module.exports = function renderBodyShell(ctx = {}) {
 <div class="sidebar-overlay" id="sb-overlay" onclick="toggleSidebar()"></div>
 
 <!-- Navbar -->
-<nav class="main-header navbar navbar-expand navbar-dark" style="background:#343a40;">
+<nav class="main-header navbar navbar-expand kr-topbar">
   <ul class="navbar-nav">
     <li class="nav-item d-md-none">
-      <a class="nav-link" href="#" onclick="toggleSidebar(); return false;"><i class="bi bi-list fs-5"></i></a>
+      <a class="nav-link kr-topbar__menu" href="#" onclick="toggleSidebar(); return false;" aria-label="Buka menu">
+        <i class="bi bi-list"></i>
+      </a>
+    </li>
+    <li class="nav-item d-none d-md-flex align-items-center">
+      <div class="kr-topbar__breadcrumb">
+        <span class="kr-topbar__breadcrumb-root">Admin</span>
+        <i class="bi bi-chevron-right kr-topbar__breadcrumb-sep"></i>
+        <span class="kr-topbar__breadcrumb-current">${activeItem ? activeItem.label : 'Dashboard'}</span>
+      </div>
     </li>
   </ul>
-  <ul class="navbar-nav ms-auto">
-    <li class="nav-item me-2">
-      <span id="mysql-status-badge" class="badge badge-red" style="font-size:11px;">
-        <i class="bi bi-circle-fill me-1" style="font-size:7px;"></i>MySQL: ...
+  <ul class="navbar-nav ms-auto kr-topbar__right">
+    <li class="nav-item kr-topbar__pill">
+      <span id="mysql-status-badge" class="kr-status-pill kr-status-pill--muted" title="Status koneksi MySQL">
+        <span class="kr-status-pill__dot"></span>
+        <span>MySQL</span>
       </span>
     </li>
-    <li class="nav-item">
-      <span class="badge badge-green" style="font-size:11px;">
-        <i class="bi bi-circle-fill me-1" style="font-size:7px;animation:pulse 1.5s infinite;"></i>Live
+    <li class="nav-item kr-topbar__pill">
+      <span class="kr-status-pill kr-status-pill--success" title="Streaming aktif">
+        <span class="kr-status-pill__dot kr-status-pill__dot--pulse"></span>
+        <span>Live</span>
       </span>
     </li>
-    <li class="nav-item ms-2">
+    <li class="nav-item kr-topbar__pill">
+      <span class="kr-topbar__date">${appStats.date || ''}</span>
+    </li>
+    <li class="nav-item ms-1">
       <form method="post" action="/admin/logout" class="d-inline m-0 p-0">
-        <button type="submit" class="btn btn-danger-soft btn-sm" style="font-size:11px;">
-          <i class="bi bi-box-arrow-right me-1"></i>Logout
+        <button type="submit" class="btn kr-topbar__logout">
+          <i class="bi bi-box-arrow-right"></i><span class="d-none d-sm-inline ms-1">Logout</span>
         </button>
       </form>
     </li>
@@ -37,105 +98,48 @@ module.exports = function renderBodyShell(ctx = {}) {
 </nav>
 
 <!-- Sidebar -->
-<aside id="sidebar" class="main-sidebar sidebar-dark-primary elevation-4">
-  <a href="#" class="brand-link text-decoration-none">
-    <span class="brand-image img-circle elevation-2 d-flex align-items-center justify-content-center" style="width:33px;height:33px;background:linear-gradient(135deg,#58a6ff,#bc8cff);opacity:1;">V3</span>
-    <span class="brand-text font-weight-light">API Checker v3.1</span>
+<aside id="sidebar" class="main-sidebar sidebar-dark-primary elevation-4 kr-sidebar">
+  <a href="/admin/dashboard?key=${ADMIN_KEY}" class="brand-link kr-sidebar__brand text-decoration-none">
+    <span class="brand-image kr-sidebar__logo">v3</span>
+    <span class="brand-text kr-sidebar__brand-text">
+      <strong>API Checker</strong>
+      <small>Admin Panel</small>
+    </span>
   </a>
-  <div class="sidebar">
-  <nav class="mt-2">
-  <ul class="sidebar-nav nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
-    <li class="nav-header">MONITORING</li>
-    <li class="nav-item">
-      <a class="nav-link active" href="/admin/dashboard?key=${ADMIN_KEY}" onclick="switchMainTab('dashboard','Monitoring Dashboard'); return false;" id="nav-dashboard">
-        <i class="nav-icon bi bi-grid-1x2-fill"></i><p>Dashboard</p>
-      </a>
-    </li>
-    <li class="nav-item">
-      <a class="nav-link" href="/admin/live?key=${ADMIN_KEY}" onclick="switchMainTab('live','Live Monitoring'); return false;" id="nav-live">
-        <i class="nav-icon bi bi-terminal-fill"></i><p>Live Monitor</p>
-      </a>
-    </li>
-    <li class="nav-item">
-      <a class="nav-link" href="/admin/users?key=${ADMIN_KEY}" onclick="switchMainTab('users','User Management (API)'); return false;" id="nav-users">
-        <i class="nav-icon bi bi-people-fill"></i><p>User Management</p>
-      </a>
-    </li>
-    <li class="nav-item">
-      <a class="nav-link" href="/admin/members?key=${ADMIN_KEY}" onclick="switchMainTab('members','Member Management (Portal)'); return false;" id="nav-members">
-        <i class="nav-icon bi bi-person-badge-fill"></i><p>Member Management</p>
-      </a>
-    </li>
-    <li class="nav-header">SISTEM</li>
-    <li class="nav-item">
-      <a class="nav-link" href="/admin/settings?key=${ADMIN_KEY}" onclick="switchMainTab('settings','Konfigurasi Sistem'); return false;" id="nav-settings">
-        <i class="nav-icon bi bi-gear-fill"></i><p>Pengaturan</p>
-      </a>
-    </li>
-    <li class="nav-item">
-      <a class="nav-link" href="/admin/tester?key=${ADMIN_KEY}" onclick="switchMainTab('tester','API Health Tester'); return false;" id="nav-tester">
-        <i class="nav-icon bi bi-activity"></i><p>API Tester</p>
-      </a>
-    </li>
-    <li class="nav-item">
-      <a class="nav-link" href="/admin/revenue?key=${ADMIN_KEY}" onclick="switchMainTab('revenue','Analisa Pendapatan'); return false;" id="nav-revenue">
-        <i class="nav-icon bi bi-cash-stack"></i><p>Pendapatan</p>
-      </a>
-    </li>
-    <li class="nav-item">
-      <a class="nav-link" href="/admin/services?key=${ADMIN_KEY}" onclick="switchMainTab('services','Setingan Layanan'); return false;" id="nav-services">
-        <i class="nav-icon bi bi-sliders2-vertical"></i><p>Setingan Layanan</p>
-      </a>
-    </li>
-    <li class="nav-item">
-      <a class="nav-link" href="/admin/wa-settings?key=${ADMIN_KEY}" onclick="switchMainTab('wa-settings','Pengaturan WA'); return false;" id="nav-wa-settings">
-        <i class="nav-icon bi bi-bell-fill"></i><p>Pengaturan WA</p>
-      </a>
-    </li>
-    <li class="nav-item">
-      <a class="nav-link" href="/admin/mysql?key=${ADMIN_KEY}" onclick="switchMainTab('mysql','MySQL Management'); return false;" id="nav-mysql">
-        <i class="nav-icon bi bi-database-fill"></i><p>Database</p>
-      </a>
-    </li>
-    <li class="nav-item">
-      <a class="nav-link" href="/admin/redis-cache?key=${ADMIN_KEY}" onclick="switchMainTab('redis-cache','Redis Cache Audit'); return false;" id="nav-redis-cache">
-        <i class="nav-icon bi bi-memory"></i><p>Redis Cache</p>
-      </a>
-    </li>
-    <li class="nav-item">
-      <a class="nav-link" href="/admin/vps?key=${ADMIN_KEY}" onclick="switchMainTab('vps','VPS Status'); return false;" id="nav-vps">
-        <i class="nav-icon bi bi-hdd-stack-fill"></i><p>VPS Status</p>
-      </a>
-    </li>
-  </ul>
-  </nav>
-  <div class="sidebar-footer">
-    <button onclick="syncDB()" class="btn btn-success-soft btn-sm w-100 mb-2" style="font-size:11px;">
-      <i class="bi bi-arrow-repeat me-1"></i>Sync Database
-    </button>
-    <div class="live-pill"><div class="live-dot"></div> Live Sync <span id="js-sync-status">aktif</span></div>
-    <div class="log-console" id="browser-logs">Console siap...</div>
+  <div class="sidebar kr-sidebar__inner">
+    <nav class="mt-2">
+      <ul class="sidebar-nav nav nav-pills nav-sidebar flex-column kr-sidebar__nav" data-widget="treeview" role="menu" data-accordion="false">
+        ${renderNavGroups(ADMIN_KEY, activePage)}
+      </ul>
+    </nav>
+    <div class="sidebar-footer kr-sidebar__footer">
+      <button type="button" onclick="syncDB()" class="btn kr-sidebar__sync w-100">
+        <i class="bi bi-arrow-repeat"></i><span>Sync Database</span>
+      </button>
+      <div class="live-pill kr-sidebar__live">
+        <span class="live-dot"></span>
+        <span>Live Sync <span id="js-sync-status">aktif</span></span>
+      </div>
+      <div class="log-console kr-sidebar__console" id="browser-logs">Console siap...</div>
+    </div>
   </div>
-</div>
 </aside>
 
 <!-- Main Content -->
-<div id="main-content" class="content-wrapper">
-  <section class="content-header pb-0">
+<div id="main-content" class="content-wrapper kr-main">
+  <section class="content-header pb-0 kr-pageheader">
     <div class="container-fluid">
-      <div class="row mb-2">
-        <div class="col-sm-12">
-          <h1 class="m-0 topbar-title" id="topbar-title">
-            <i class="bi bi-grid-1x2-fill"></i> Dashboard
-            <span class="badge badge-blue ms-1" style="font-size:11px;">${appStats.date}</span>
-          </h1>
-        </div>
+      <div class="kr-pageheader__row">
+        <h1 class="m-0 topbar-title kr-pageheader__title" id="topbar-title">
+          <span class="kr-pageheader__icon"><i class="bi ${topbarIcon}"></i></span>
+          <span class="kr-pageheader__text">${topbarTitle}</span>
+          <span class="badge badge-blue kr-pageheader__date">${appStats.date || ''}</span>
+        </h1>
       </div>
     </div>
   </section>
   <section class="content page-body">
-  <div class="container-fluid">
+    <div class="container-fluid">
 
   `;
-  }
 };

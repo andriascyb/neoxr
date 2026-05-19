@@ -120,59 +120,21 @@ setInterval(() => {
   }
 }, 60 * 1000).unref?.();
 
-const getCookie = (req, name) => {
-  const src = String((req && req.headers && req.headers.cookie) || '');
-  if (!src) return '';
-  const wanted = `${name}=`;
-  const parts = src.split(';');
-  for (const part of parts) {
-    const item = part.trim();
-    if (item.startsWith(wanted)) {
-      return decodeURIComponent(item.slice(wanted.length));
-    }
-  }
-  return '';
-};
+const adminSession = require('../lib/admin_session');
+const {
+  getCookie,
+  safeCompare,
+  setAdminCookie,
+  clearAdminCookie,
+  createAdminSessionToken,
+  verifyAdminSessionToken
+} = adminSession;
 
-const ADMIN_SESSION_TTL_SEC = 60 * 60 * 12;
-const ADMIN_SESSION_TTL_MS = ADMIN_SESSION_TTL_SEC * 1000;
+const ADMIN_SESSION_TTL_SEC = adminSession.ADMIN_SESSION_TTL_SEC;
+const ADMIN_SESSION_TTL_MS = adminSession.ADMIN_SESSION_TTL_MS;
 const loginAttempts = new Map();
 const LOGIN_ATTEMPT_WINDOW_MS = 15 * 60 * 1000;
 const LOGIN_MAX_FAILS = 8;
-
-const getAdminSessionSecret = () => {
-  const raw = String(process.env.ADMIN_SESSION_SECRET || cfg.ADMIN_KEY || 'admin_session_secret').trim();
-  return crypto.createHash('sha256').update(raw).digest('hex');
-};
-
-const createAdminSessionToken = () => {
-  const ts = Date.now();
-  const nonce = crypto.randomBytes(16).toString('hex');
-  const sig = crypto
-    .createHmac('sha256', getAdminSessionSecret())
-    .update(`${ts}.${nonce}`)
-    .digest('hex');
-  return `v1.${ts}.${nonce}.${sig}`;
-};
-
-const verifyAdminSessionToken = (token) => {
-  const parts = String(token || '').trim().split('.');
-  if (parts.length !== 4 || parts[0] !== 'v1') return false;
-  const ts = Number(parts[1]);
-  const nonce = parts[2];
-  const sig = parts[3];
-  if (!Number.isFinite(ts) || !nonce || !sig) return false;
-  if ((Date.now() - ts) > ADMIN_SESSION_TTL_MS || ts > (Date.now() + 5 * 60 * 1000)) return false;
-  const expected = crypto
-    .createHmac('sha256', getAdminSessionSecret())
-    .update(`${ts}.${nonce}`)
-    .digest('hex');
-  try {
-    return crypto.timingSafeEqual(Buffer.from(sig), Buffer.from(expected));
-  } catch (e) {
-    return false;
-  }
-};
 
 const getLoginAttemptKey = (req) => {
   const ip = String((req.headers['x-forwarded-for'] || req.ip || '').split(',')[0] || '').trim();
@@ -215,50 +177,6 @@ const markLoginFailed = (req) => {
 const markLoginSuccess = (req) => {
   const key = getLoginAttemptKey(req);
   loginAttempts.delete(key);
-};
-
-const safeCompare = (a, b) => {
-  const x = Buffer.from(String(a || ''));
-  const y = Buffer.from(String(b || ''));
-  if (x.length !== y.length) return false;
-  try {
-    return crypto.timingSafeEqual(x, y);
-  } catch (e) {
-    return false;
-  }
-};
-
-const setAdminCookie = (req, res, keyValue) => {
-  const secure = req.secure || String(req.headers['x-forwarded-proto'] || '').split(',')[0].trim() === 'https';
-  const sessionToken = createAdminSessionToken();
-  const attrs = [
-    `admin_session=${encodeURIComponent(sessionToken)}`,
-    'Path=/',
-    'HttpOnly',
-    'SameSite=Lax',
-    `Max-Age=${ADMIN_SESSION_TTL_SEC}`
-  ];
-  if (secure) attrs.push('Secure');
-  const legacyAttrs = [
-    'admin_key=',
-    'Path=/',
-    'HttpOnly',
-    'SameSite=Lax',
-    'Max-Age=0'
-  ];
-  if (secure) legacyAttrs.push('Secure');
-  res.setHeader('Set-Cookie', [attrs.join('; '), legacyAttrs.join('; ')]);
-};
-
-const clearAdminCookie = (req, res) => {
-  const secure = req.secure || String(req.headers['x-forwarded-proto'] || '').split(',')[0].trim() === 'https';
-  const attrsSession = ['admin_session=', 'Path=/', 'HttpOnly', 'SameSite=Lax', 'Max-Age=0'];
-  const attrsLegacy = ['admin_key=', 'Path=/', 'HttpOnly', 'SameSite=Lax', 'Max-Age=0'];
-  if (secure) {
-    attrsSession.push('Secure');
-    attrsLegacy.push('Secure');
-  }
-  res.setHeader('Set-Cookie', [attrsSession.join('; '), attrsLegacy.join('; ')]);
 };
 
 const renderAdminLoginPage = (message) => `<!doctype html>

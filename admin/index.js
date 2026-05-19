@@ -5,6 +5,7 @@ const renderBodyShell = require('./partials/body-shell');
 const renderAdminFooter = require('./partials/footer');
 const renderAdminStyles = require('./assets/styles');
 const renderAdminScripts = require('./assets/scripts');
+const { renderNotifyScript } = require('./components/notify');
 const renderDashboardSection = require('./sections/dashboard');
 const renderLiveSection = require('./sections/live');
 const renderUsersSection = require('./sections/users');
@@ -58,6 +59,7 @@ function getAdminHTML(ADMIN_KEY, appStats, req, activePage = 'dashboard') {
     sectionHtml,
     renderAdminFooter({ ...ctx, activePage: resolvedPage }),
     '<script>',
+    renderNotifyScript() + '\n' +
     `window.__ADMIN_PAGE__=${JSON.stringify(resolvedPage)};\n` + renderAdminScripts({ ...ctx, activePage: resolvedPage }),
     '</script>',
     renderDocumentEnd()
