@@ -1,0 +1,51 @@
+{
+  "date": "2026-03-10",
+  "bank": {
+    "today": {
+      "valid": 14,
+      "failed": 5,
+      "total": 19
+    },
+    "all": {
+      "valid": 15,
+      "failed": 5,
+      "total": 20
+    }
+  },
+  "ewallet": {
+    "today": {
+      "valid": 33,
+      "failed": 7,
+      "total": 40
+    },
+    "all": {
+      "valid": 40,
+      "failed": 8,
+      "total": 48
+    }
+  },
+  "nik": {
+    "today": {
+      "valid": 0,
+      "failed": 0,
+      "total": 0
+    },
+    "all": {
+      "valid": 0,
+      "failed": 0,
+      "total": 0
+    }
+  },
+  "whatsapp": {
+    "today": {
+      "valid": 46,
+      "failed": 7,
+      "total": 53
+    },
+    "all": {
+      "valid": 46,
+      "failed": 7,
+      "total": 53
+    }
+  }
+}

@@ -1,0 +1,422 @@
+[
+  {
+    "name": "Bank BCA",
+    "code": "014"
+  },
+  {
+    "name": "Bank Mandiri",
+    "code": "008"
+  },
+  {
+    "name": "Bank BNI",
+    "code": "009"
+  },
+  {
+    "name": "Bank BRI",
+    "code": "002"
+  },
+  {
+    "name": "Bank Danamon",
+    "code": "011"
+  },
+  {
+    "name": "Bank CIMB Niaga",
+    "code": "022"
+  },
+  {
+    "name": "Bank Permata",
+    "code": "013"
+  },
+  {
+    "name": "Bank Mega",
+    "code": "426"
+  },
+  {
+    "name": "Bank Panin",
+    "code": "019"
+  },
+  {
+    "name": "Bank OCBC NISP",
+    "code": "028"
+  },
+  {
+    "name": "Bank BTN",
+    "code": "200"
+  },
+  {
+    "name": "Bank KB Bukopin",
+    "code": "441"
+  },
+  {
+    "name": "Citibank",
+    "code": "031"
+  },
+  {
+    "name": "Standard Chartered",
+    "code": "050"
+  },
+  {
+    "name": "Bank UOB",
+    "code": "023"
+  },
+  {
+    "name": "Bank DBS",
+    "code": "046"
+  },
+  {
+    "name": "Bank Aceh",
+    "code": "116"
+  },
+  {
+    "name": "Bank Agris Prima",
+    "code": "945"
+  },
+  {
+    "name": "Bank Agro",
+    "code": "494"
+  },
+  {
+    "name": "Bank Artha Graha",
+    "code": "037"
+  },
+  {
+    "name": "Bank Jago",
+    "code": "542"
+  },
+  {
+    "name": "Bank Bengkulu",
+    "code": "133"
+  },
+  {
+    "name": "Bank BJB",
+    "code": "110"
+  },
+  {
+    "name": "Bank BJB Syariah",
+    "code": "425"
+  },
+  {
+    "name": "Bank SeaBank",
+    "code": "535"
+  },
+  {
+    "name": "Bank BNP",
+    "code": "145"
+  },
+  {
+    "name": "Bank BOC",
+    "code": "069"
+  },
+  {
+    "name": "Bank BPR EKA",
+    "code": "867"
+  },
+  {
+    "name": "Bank BPR KS",
+    "code": "688"
+  },
+  {
+    "name": "Bank Bumi Arta",
+    "code": "076"
+  },
+  {
+    "name": "Bank Capital",
+    "code": "054"
+  },
+  {
+    "name": "Bank DKI",
+    "code": "111"
+  },
+  {
+    "name": "BANK HSBC INDONESIA",
+    "code": "087"
+  },
+  {
+    "name": "Bank Ganesha",
+    "code": "161"
+  },
+  {
+    "name": "Bank Hana",
+    "code": "484"
+  },
+  {
+    "name": "Bank INA",
+    "code": "513"
+  },
+  {
+    "name": "Bank Index",
+    "code": "555"
+  },
+  {
+    "name": "Bank Indomonex",
+    "code": "498"
+  },
+  {
+    "name": "Bank Jambi",
+    "code": "115"
+  },
+  {
+    "name": "Bank Jasa Jakarta",
+    "code": "472"
+  },
+  {
+    "name": "Bank Jateng",
+    "code": "113"
+  },
+  {
+    "name": "Bank Jatim",
+    "code": "114"
+  },
+  {
+    "name": "Bank Kalbar",
+    "code": "123"
+  },
+  {
+    "name": "Bank Kalsel",
+    "code": "122"
+  },
+  {
+    "name": "Bank Kalteng",
+    "code": "125"
+  },
+  {
+    "name": "Bank Kaltim",
+    "code": "124"
+  },
+  {
+    "name": "Bank Kesawan",
+    "code": "167"
+  },
+  {
+    "name": "Bank Lampung",
+    "code": "121"
+  },
+  {
+    "name": "Bank Maluku",
+    "code": "131"
+  },
+  {
+    "name": "Bank Maspion",
+    "code": "157"
+  },
+  {
+    "name": "Bank Mayapada",
+    "code": "097"
+  },
+  {
+    "name": "Bank Mayora",
+    "code": "553"
+  },
+  {
+    "name": "Bank Mestika Dharma",
+    "code": "151"
+  },
+  {
+    "name": "Bank MNC International",
+    "code": "485"
+  },
+  {
+    "name": "Bank Muamalat",
+    "code": "147"
+  },
+  {
+    "name": "Bank Multi Arta Sentosa",
+    "code": "548"
+  },
+  {
+    "name": "Bank JTrust Indonesia",
+    "code": "095"
+  },
+  {
+    "name": "Bank Nagari",
+    "code": "118"
+  },
+  {
+    "name": "Bank NOBU",
+    "code": "503"
+  },
+  {
+    "name": "Bank NTB",
+    "code": "128"
+  },
+  {
+    "name": "Bank NTT",
+    "code": "130"
+  },
+  {
+    "name": "Bank MUFG",
+    "code": "042"
+  },
+  {
+    "name": "Bank Panin Syariah",
+    "code": "517"
+  },
+  {
+    "name": "Bank Papua",
+    "code": "132"
+  },
+  {
+    "name": "Bank Pundi",
+    "code": "558"
+  },
+  {
+    "name": "Bank Rabobank",
+    "code": "089"
+  },
+  {
+    "name": "Bank Riau Kepri",
+    "code": "119"
+  },
+  {
+    "name": "Bank BCA Digital",
+    "code": "501"
+  },
+  {
+    "name": "Bank Sinarmas",
+    "code": "153"
+  },
+  {
+    "name": "Bank SulSelBar",
+    "code": "126"
+  },
+  {
+    "name": "Bank SulTra",
+    "code": "135"
+  },
+  {
+    "name": "Bank Sulut",
+    "code": "127"
+  },
+  {
+    "name": "Bank Sumsel",
+    "code": "120"
+  },
+  {
+    "name": "Bank Sumut",
+    "code": "117"
+  },
+  {
+    "name": "Bank Swadesi",
+    "code": "146"
+  },
+  {
+    "name": "Bank Syariah Bukopin",
+    "code": "521"
+  },
+  {
+    "name": "Bank Syariah Mega",
+    "code": "506"
+  },
+  {
+    "name": "Bank UIB",
+    "code": "536"
+  },
+  {
+    "name": "Bank Victoria",
+    "code": "566"
+  },
+  {
+    "name": "Bank ChinaConstruction Bank Ind",
+    "code": "036"
+  },
+  {
+    "name": "Bank Woori Saudara 1906",
+    "code": "068"
+  },
+  {
+    "name": "BPD Bali",
+    "code": "129"
+  },
+  {
+    "name": "BPD DIY",
+    "code": "112"
+  },
+  {
+    "name": "BPD SulTeng",
+    "code": "134"
+  },
+  {
+    "name": "Bank China Trust",
+    "code": "949"
+  },
+  {
+    "name": "Victoria Syariah",
+    "code": "405"
+  },
+  {
+    "name": "MAYBANK",
+    "code": "016"
+  },
+  {
+    "name": "BANK ANZ",
+    "code": "061"
+  },
+  {
+    "name": "Bank Maybank Malaysia",
+    "code": "1003"
+  },
+  {
+    "name": "Bank OCBC Malaysia",
+    "code": "1004"
+  },
+  {
+    "name": "Bank Islam Malaysia",
+    "code": "1008"
+  },
+  {
+    "name": "CIMB Bank Malaysia",
+    "code": "1007"
+  },
+  {
+    "name": "RHB Bank Malaysia",
+    "code": "1005"
+  },
+  {
+    "name": "BSN Malaysia",
+    "code": "1006"
+  },
+  {
+    "name": "Hong Leong Bank Malaysia",
+    "code": "1001"
+  },
+  {
+    "name": "Public Bank Malaysia",
+    "code": "1002"
+  },
+  {
+    "name": "BPD BANTEN",
+    "code": "137"
+  },
+  {
+    "name": "Bank SHINHAN",
+    "code": "152"
+  },
+  {
+    "name": "Bank ICBC IND",
+    "code": "164"
+  },
+  {
+    "name": "BANK DINAR",
+    "code": "526"
+  },
+  {
+    "name": "Bank BCA Syariah",
+    "code": "536"
+  },
+  {
+    "name": "Bank Commonwealth",
+    "code": "950"
+  },
+  {
+    "name": "Allo Bank",
+    "code": "567"
+  },
+  {
+    "name": "Bank Neo Commerce",
+    "code": "490"
+  },
+  {
+    "name": "Bank Syariah Indonesia BSI",
+    "code": "451"
+  }
+]

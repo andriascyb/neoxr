@@ -1,0 +1,277 @@
+/**
+ * lib/config.js
+ * Application configuration, MySQL pool, settings sync & DB initialization
+ */
+
+const fs = require('fs');
+const path = require('path');
+const mysql = require('mysql2/promise');
+
+const TERMINAL_DEBUG = false;
+function debugLog(...args) { if (TERMINAL_DEBUG) console.log(...args); }
+
+const CONFIG_FILE_PATH = path.join(__dirname, '../config.json');
+const BANK_CODES_PATH = path.join(__dirname, '../bank_codes.json');
+
+// ===== APP CONFIG DEFAULTS =====
+let appConfig = {
+  server_name: "APIV3",
+  cache_time: 300,
+  cache_enabled: 1,
+  db_cache_enabled: 1,
+  public_base_url: "",
+  wa_notify_enabled: 1,
+  wa_notify_days_before: 2,
+  wa_template_new_user: "Halo {name}, akun API Anda sudah dibuat.\n\nAPI Key: {api_key}\nMasa aktif sampai: {expiry}\nPaket: {package}\n\nDocs: {base_url}/\nContoh:\n{base_url}/api/v3/validate?api_key={api_key}&type=bank&code=014&accountNumber=1234567890",
+  wa_template_expiry_2d: "Halo {name}, masa aktif API Anda tinggal {days_left} hari (sampai {expiry}).\nSilakan perpanjang untuk menghindari akses terhenti.\n\nInfo: {base_url}/",
+  api_key: "65ad46d0-4fbe-4d61-acfa-1dc4951a5562",
+  timeout_ms: 8000,
+  bank_server1_status: "on",
+  bank_server2_status: "on",
+  ewallet_server1_status: "on",
+  ewallet_server2_status: "off",
+  bank_server2_apikey: "ASRD-OPENAPI1H3HK7DSJ7BLPTTQVEIHRJ69GE72GTS5",
+  bank_endpoint: "https://rfpdev.me/api/check-rekening",
+  ewallet_endpoint: "https://rfpdev.me/api/check-ewallet",
+  nik_endpoint: "https://rfpdev.me/api/check-nik",
+  fonnte_token: "F2u384MXYn2gny4PvUmj",
+  pitucode_apikey: "dadd4f27220b",
+  wa_priority: "0,2,1",
+  admin_key: "admin123",
+  show_packages: 1,
+  cooldown_bank: 0,
+  cooldown_ewallet: 0,
+  cooldown_whatsapp: 0,
+  cooldown_nik: 0,
+  cost_bank: 150,
+  cost_ewallet: 150,
+  cost_nik: 250,
+  cost_whatsapp: 50,
+  nik_status: 'on',
+  whatsapp_status: 'on',
+  bank_server4_status: 'off',
+  bank_server4_apikey: '',
+  ewallet_server3_status: 'off',
+  ewallet_server3_apikey: '',
+  ewallet_server6_status: 'off',
+  ewallet_server6_apikey: '',
+  ewallet_server6_base_url: 'https://laburagame.com/api/ewallet',
+  bank_code_server_toggles: {}
+};
+
+let mysqlConfig = {
+  host: '127.0.0.1',
+  user: 'apiuser',
+  password: 'StrongPassword123!',
+  database: 'apivalid_v3',
+  port: 3306,
+  waitForConnections: true,
+  connectionLimit: 10,
+  queueLimit: 0
+};
+
+let logRetentionDays = 30;
+
+// ===== LOAD FROM config.json =====
+try {
+  if (fs.existsSync(CONFIG_FILE_PATH)) {
+    const configData = JSON.parse(fs.readFileSync(CONFIG_FILE_PATH, 'utf8'));
+
+    if (configData.mysql_host) mysqlConfig.host = configData.mysql_host;
+    if (configData.mysql_user) mysqlConfig.user = configData.mysql_user;
+    if (configData.mysql_password) mysqlConfig.password = configData.mysql_password;
+    if (configData.mysql_database) mysqlConfig.database = configData.mysql_database;
+    if (configData.mysql_port) mysqlConfig.port = configData.mysql_port;
+
+    Object.keys(appConfig).forEach(key => {
+      if (configData[key] !== undefined) {
+        appConfig[key] = configData[key];
+      }
+    });
+
+    if (configData.api_log_retention_days) {
+      logRetentionDays = parseInt(configData.api_log_retention_days) || 30;
+    }
+
+    console.log('[CONFIG] Successfully loaded config.json');
+  } else {
+    fs.writeFileSync(CONFIG_FILE_PATH, JSON.stringify(appConfig, null, 2));
+    console.log('[CONFIG] Created default config.json');
+  }
+} catch (e) {
+  console.log('[CONFIG] Error loading config.json:', e.message);
+}
+
+let ADMIN_KEY = appConfig.admin_key || "admin123";
+
+console.log(`[MYSQL] Connecting to ${mysqlConfig.host}:${mysqlConfig.port} as ${mysqlConfig.user} on DB ${mysqlConfig.database}`);
+const dbPool = mysql.createPool({ ...mysqlConfig, timezone: '+07:00', multipleStatements: true });
+
+if (typeof dbPool.on === 'function') {
+  dbPool.on('connection', (connection) => {
+    try { connection.query("SET time_zone = '+07:00'"); } catch (e) { }
+  });
+}
+
+// ===== SETTINGS SYNC =====
+async function loadSettingsFromDB() {
+  try {
+    const [rows] = await dbPool.query('SELECT setting_key, setting_value FROM api_settings');
+    if (rows.length === 0) {
+      console.log('[CONFIG] No settings found in DB, performing initial sync...');
+      await syncSettingsToDB();
+      return;
+    }
+
+    rows.forEach(row => {
+      const key = row.setting_key;
+      let val = row.setting_value;
+
+      const numericKeys = [
+        'cache_time', 'cache_enabled', 'db_cache_enabled', 'wa_notify_enabled',
+        'wa_notify_days_before', 'timeout_ms',
+        'show_packages', 'api_log_retention_days',
+        'cooldown_bank', 'cooldown_ewallet', 'cooldown_whatsapp', 'cooldown_nik',
+        'cost_bank', 'cost_ewallet', 'cost_nik', 'cost_whatsapp'
+      ];
+      if (numericKeys.includes(key)) {
+        val = parseInt(val);
+      }
+
+      if (key === 'api_log_retention_days') {
+        logRetentionDays = val || 30;
+      } else if (key === 'bank_code_server_toggles') {
+        try { appConfig[key] = typeof val === 'string' ? JSON.parse(val) : val; } catch (e) { }
+      } else if (appConfig[key] !== undefined) {
+        appConfig[key] = val;
+      }
+    });
+
+    if (appConfig.admin_key) {
+      ADMIN_KEY = appConfig.admin_key;
+    }
+
+    console.log('[CONFIG] Settings successfully loaded from MySQL');
+  } catch (err) {
+    console.error('[CONFIG] Warning: Could not load settings from MySQL:', err.message);
+  }
+}
+
+async function syncSettingsToDB() {
+  try {
+    const settingsToSync = { ...appConfig, api_log_retention_days: logRetentionDays };
+
+    for (const [key, value] of Object.entries(settingsToSync)) {
+      let valToStore = value;
+      if (typeof valToStore === 'object' && valToStore !== null) {
+        valToStore = JSON.stringify(valToStore);
+      }
+
+      await dbPool.query(
+        'INSERT INTO api_settings (setting_key, setting_value) VALUES (?, ?) ON DUPLICATE KEY UPDATE setting_value = ?',
+        [key, String(valToStore), String(valToStore)]
+      );
+    }
+    console.log('[CONFIG] Settings synced to MySQL api_settings');
+  } catch (err) {
+    console.error('[CONFIG] Failed to sync settings to MySQL:', err.message);
+  }
+}
+
+// ===== DATABASE INIT =====
+async function initDatabase() {
+  try {
+    await dbPool.query("SET time_zone = '+07:00'");
+  } catch (e) {
+    console.error('[MYSQL] Warning: Failed to set timezone to +07:00:', e.message);
+  }
+
+  await loadSettingsFromDB();
+
+  try {
+    if (fs.existsSync('./database_schema.sql')) {
+      try {
+        await dbPool.query(`CREATE TABLE IF NOT EXISTS api_logs (
+          id INT AUTO_INCREMENT PRIMARY KEY,
+          api_key VARCHAR(100),
+          ip_address VARCHAR(45),
+          endpoint VARCHAR(255),
+          request_data TEXT,
+          response_data TEXT,
+          status_code INT,
+          response_time INT,
+          log_type VARCHAR(20),
+          is_success TINYINT DEFAULT 1,
+          created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;`);
+      } catch (e) {
+        console.error('[MYSQL-INIT] Failed to ensure api_logs table:', e.message);
+      }
+
+      const criticalColumns = [
+        `ALTER TABLE api_logs ADD COLUMN log_type VARCHAR(20)`,
+        `ALTER TABLE api_logs ADD COLUMN is_success TINYINT DEFAULT 1`,
+        `ALTER TABLE api_logs ADD COLUMN created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP`,
+        `ALTER TABLE api_logs ADD COLUMN response_time INT`,
+        `ALTER TABLE api_logs ADD COLUMN status_code INT`
+      ];
+      for (const col of criticalColumns) {
+        try { await dbPool.query(col); } catch (e) { /* ignore ER_DUP_FIELDNAME */ }
+      }
+
+      const sql = fs.readFileSync('./database_schema.sql', 'utf8');
+      const statements = sql.split(';').map(s => s.trim()).filter(s => s.length > 0 && !s.startsWith('--'));
+
+      let successCount = 0;
+      for (const stmt of statements) {
+        try {
+          await dbPool.query(stmt);
+          successCount++;
+        } catch (e) {
+          const ignoredCodes = [
+            'ER_DUP_FIELDNAME', 'ER_DUP_KEYNAME', 'ER_TABLE_EXISTS_ERROR',
+            'ER_DUP_ENTRY', '1050', '1060', '1061', '1062'
+          ];
+          const isIgnored = ignoredCodes.includes(e.code) ||
+            ignoredCodes.includes(String(e.errno)) ||
+            e.message.toLowerCase().includes('duplicate');
+
+          if (!isIgnored) {
+            if (stmt.toUpperCase().includes('CREATE INDEX') && e.message.includes('Syntax error')) {
+              debugLog('[MYSQL-INIT] Index creation failed, skipping index.');
+            } else {
+              console.error('[MYSQL-INIT] Error on statement:', stmt.substring(0, 50) + '...', e.message);
+            }
+          }
+        }
+      }
+      debugLog(`[MYSQL] Database schema auto-initialized. Executed ${successCount}/${statements.length} statements successfully.`);
+
+      try {
+        await dbPool.query("INSERT IGNORE INTO api_keys (api_key, name, is_active, billing_type) VALUES ('PUBLIC_TRIAL', 'Public Trial User', 0, 'trial')");
+        debugLog('[MYSQL-INIT] Ensured PUBLIC_TRIAL user exists.');
+      } catch (e) {
+        console.error('[MYSQL-INIT] Failed to create PUBLIC_TRIAL user:', e.message);
+      }
+    }
+  } catch (err) {
+    console.error('[MYSQL] Error reading database schema:', err.message);
+  }
+}
+
+module.exports = {
+  appConfig,
+  mysqlConfig,
+  dbPool,
+  get logRetentionDays() { return logRetentionDays; },
+  set logRetentionDays(v) { logRetentionDays = v; },
+  get ADMIN_KEY() { return ADMIN_KEY; },
+  set ADMIN_KEY(v) { ADMIN_KEY = v; },
+  loadSettingsFromDB,
+  syncSettingsToDB,
+  initDatabase,
+  debugLog,
+  TERMINAL_DEBUG,
+  CONFIG_FILE_PATH,
+  BANK_CODES_PATH
+};

@@ -1,0 +1,145 @@
+[2026-04-06 05:00:24] [ERROR] ValidationError: The 'X-Forwarded-For' header is set but the Express 'trust proxy' setting is false (default). This could indicate a misconfiguration which would prevent express-rate-limit from accurately identifying users. See https://express-rate-limit.github.io/ERR_ERL_UNEXPECTED_X_FORWARDED_FOR/ for more information. 
+[2026-04-06 05:01:27] [ERROR] ValidationError: The 'X-Forwarded-For' header is set but the Express 'trust proxy' setting is false (default). This could indicate a misconfiguration which would prevent express-rate-limit from accurately identifying users. See https://express-rate-limit.github.io/ERR_ERL_UNEXPECTED_X_FORWARDED_FOR/ for more information. 
+[2026-04-06 05:02:06] [ERROR] ValidationError: The 'X-Forwarded-For' header is set but the Express 'trust proxy' setting is false (default). This could indicate a misconfiguration which would prevent express-rate-limit from accurately identifying users. See https://express-rate-limit.github.io/ERR_ERL_UNEXPECTED_X_FORWARDED_FOR/ for more information. 
+[2026-04-06 05:03:34] [ERROR] [CONFIG] Failed to sync settings to MySQL: Data too long for column 'setting_value' at row 1
+[2026-04-06 05:03:53] [ERROR] [CONFIG] Failed to sync settings to MySQL: Data too long for column 'setting_value' at row 1
+[2026-04-06 05:06:11] [ERROR] [CONFIG] Failed to sync settings to MySQL: Data too long for column 'setting_value' at row 1
+[2026-04-06 05:06:28] [ERROR] [CONFIG] Failed to sync settings to MySQL: Data too long for column 'setting_value' at row 1
+[2026-04-06 05:10:34] [ERROR] ValidationError: The 'X-Forwarded-For' header is set but the Express 'trust proxy' setting is false (default). This could indicate a misconfiguration which would prevent express-rate-limit from accurately identifying users. See https://express-rate-limit.github.io/ERR_ERL_UNEXPECTED_X_FORWARDED_FOR/ for more information. 
+[2026-04-19 16:28:48] [ERROR] ValidationError: The Express 'trust proxy' setting is true, which allows anyone to trivially bypass IP-based rate limiting. See https://express-rate-limit.github.io/ERR_ERL_PERMISSIVE_TRUST_PROXY/ for more information. 
+[2026-04-19 17:01:16] [ERROR] ValidationError: The Express 'trust proxy' setting is true, which allows anyone to trivially bypass IP-based rate limiting. See https://express-rate-limit.github.io/ERR_ERL_PERMISSIVE_TRUST_PROXY/ for more information. 
+[2026-04-19 17:12:55] [ERROR] ValidationError: The Express 'trust proxy' setting is true, which allows anyone to trivially bypass IP-based rate limiting. See https://express-rate-limit.github.io/ERR_ERL_PERMISSIVE_TRUST_PROXY/ for more information. 
+[2026-04-19 17:13:10] [ERROR] ValidationError: The Express 'trust proxy' setting is true, which allows anyone to trivially bypass IP-based rate limiting. See https://express-rate-limit.github.io/ERR_ERL_PERMISSIVE_TRUST_PROXY/ for more information. 
+[2026-04-19 17:13:53] [ERROR] ValidationError: The Express 'trust proxy' setting is true, which allows anyone to trivially bypass IP-based rate limiting. See https://express-rate-limit.github.io/ERR_ERL_PERMISSIVE_TRUST_PROXY/ for more information. 
+[2026-05-07 15:34:02] [ERROR] [MYSQL] Warning: Failed to set timezone to +07:00: Access denied for user 'bapivalidasi_db'@'localhost' (using password: YES)
+[2026-05-07 15:34:02] [ERROR] [CONFIG] Warning: Could not load settings from MySQL: Access denied for user 'bapivalidasi_db'@'localhost' (using password: YES)
+[2026-05-07 15:34:02] [ERROR] [MYSQL-INIT] Failed to ensure api_logs table: Access denied for user 'bapivalidasi_db'@'localhost' (using password: YES)
+[2026-05-07 15:34:02] [ERROR] [MYSQL-INIT] Failed to backfill member_code: Access denied for user 'bapivalidasi_db'@'localhost' (using password: YES)
+[2026-05-07 15:34:02] [ERROR] [MYSQL-INIT] Failed to ensure member_package_invoices table: Access denied for user 'bapivalidasi_db'@'localhost' (using password: YES)
+[2026-05-07 15:34:02] [ERROR] [MYSQL-INIT] Failed to ensure payment_method_settings table: Access denied for user 'bapivalidasi_db'@'localhost' (using password: YES)
+[2026-05-07 15:34:02] [ERROR] [MYSQL-INIT] Failed to ensure wa_otp_sessions table: Access denied for user 'bapivalidasi_db'@'localhost' (using password: YES)
+[2026-05-07 15:34:02] [ERROR] [MYSQL-INIT] Failed to ensure member_registration_drafts table: Access denied for user 'bapivalidasi_db'@'localhost' (using password: YES)
+[2026-05-07 15:34:02] [ERROR] [MYSQL-INIT] Failed to ensure wa_message_logs table: Access denied for user 'bapivalidasi_db'@'localhost' (using password: YES)
+[2026-05-07 15:34:02] [ERROR] [MYSQL-INIT] Error on statement: SET NAMES utf8mb4... Access denied for user 'bapivalidasi_db'@'localhost' (using password: YES)
+[2026-05-07 15:34:02] [ERROR] [MYSQL-INIT] Error on statement: SET FOREIGN_KEY_CHECKS = 0... Access denied for user 'bapivalidasi_db'@'localhost' (using password: YES)
+[2026-05-07 15:34:02] [ERROR] [MYSQL-INIT] Error on statement: CREATE TABLE IF NOT EXISTS packages (
+  package_id... Access denied for user 'bapivalidasi_db'@'localhost' (using password: YES)
+[2026-05-07 15:34:02] [ERROR] [MYSQL-INIT] Error on statement: CREATE TABLE IF NOT EXISTS api_keys (
+  id INT AU... Access denied for user 'bapivalidasi_db'@'localhost' (using password: YES)
+[2026-05-07 15:34:02] [ERROR] [MYSQL-INIT] Error on statement: CREATE TABLE IF NOT EXISTS api_logs (
+  id INT AU... Access denied for user 'bapivalidasi_db'@'localhost' (using password: YES)
+[2026-05-07 15:34:02] [ERROR] [MYSQL-INIT] Error on statement: CREATE TABLE IF NOT EXISTS balance_logs (
+  id IN... Access denied for user 'bapivalidasi_db'@'localhost' (using password: YES)
+[2026-05-07 15:34:02] [ERROR] [MYSQL-INIT] Error on statement: CREATE TABLE IF NOT EXISTS api_settings (
+  setti... Access denied for user 'bapivalidasi_db'@'localhost' (using password: YES)
+[2026-05-07 15:34:02] [ERROR] [MYSQL-INIT] Error on statement: INSERT IGNORE INTO packages (package_id, name, pri... Access denied for user 'bapivalidasi_db'@'localhost' (using password: YES)
+[2026-05-07 15:34:02] [ERROR] [MYSQL-INIT] Error on statement: INSERT IGNORE INTO api_settings (setting_key, sett... Access denied for user 'bapivalidasi_db'@'localhost' (using password: YES)
+[2026-05-07 15:34:02] [ERROR] [MYSQL-INIT] Error on statement: CREATE TABLE IF NOT EXISTS member_accounts (
+  id ... Access denied for user 'bapivalidasi_db'@'localhost' (using password: YES)
+[2026-05-07 15:34:02] [ERROR] [MYSQL-INIT] Error on statement: CREATE TABLE IF NOT EXISTS member_sessions (
+  id ... Access denied for user 'bapivalidasi_db'@'localhost' (using password: YES)
+[2026-05-07 15:34:02] [ERROR] [MYSQL-INIT] Error on statement: CREATE TABLE IF NOT EXISTS member_api_keys (
+  id ... Access denied for user 'bapivalidasi_db'@'localhost' (using password: YES)
+[2026-05-07 15:34:02] [ERROR] [MYSQL-INIT] Error on statement: CREATE TABLE IF NOT EXISTS member_wallet_transacti... Access denied for user 'bapivalidasi_db'@'localhost' (using password: YES)
+[2026-05-07 15:34:02] [ERROR] [MYSQL-INIT] Error on statement: CREATE TABLE IF NOT EXISTS member_package_subscrip... Access denied for user 'bapivalidasi_db'@'localhost' (using password: YES)
+[2026-05-07 15:34:02] [ERROR] [MYSQL-INIT] Error on statement: CREATE TABLE IF NOT EXISTS member_package_invoices... Access denied for user 'bapivalidasi_db'@'localhost' (using password: YES)
+[2026-05-07 15:34:02] [ERROR] [MYSQL-INIT] Error on statement: CREATE TABLE IF NOT EXISTS member_topups (
+  id IN... Access denied for user 'bapivalidasi_db'@'localhost' (using password: YES)
+[2026-05-07 15:34:02] [ERROR] [MYSQL-INIT] Error on statement: CREATE TABLE IF NOT EXISTS member_mode_changes (
+ ... Access denied for user 'bapivalidasi_db'@'localhost' (using password: YES)
+[2026-05-07 15:34:02] [ERROR] [MYSQL-INIT] Error on statement: CREATE TABLE IF NOT EXISTS member_pin_reset_logs (... Access denied for user 'bapivalidasi_db'@'localhost' (using password: YES)
+[2026-05-07 15:34:02] [ERROR] [MYSQL-INIT] Error on statement: CREATE TABLE IF NOT EXISTS response_mappings (
+  i... Access denied for user 'bapivalidasi_db'@'localhost' (using password: YES)
+[2026-05-07 15:34:02] [ERROR] [MYSQL-INIT] Error on statement: CREATE TABLE IF NOT EXISTS response_mapping_versio... Access denied for user 'bapivalidasi_db'@'localhost' (using password: YES)
+[2026-05-07 15:34:02] [ERROR] [MYSQL-INIT] Error on statement: SET FOREIGN_KEY_CHECKS = 1... Access denied for user 'bapivalidasi_db'@'localhost' (using password: YES)
+[2026-05-07 15:34:02] [ERROR] [MYSQL-INIT] Failed to create PUBLIC_TRIAL user: Access denied for user 'bapivalidasi_db'@'localhost' (using password: YES)
+[2026-05-07 15:34:02] [ERROR] [MYSQL-INIT] Saldo-only migration failed: Access denied for user 'bapivalidasi_db'@'localhost' (using password: YES)
+[2026-05-07 15:34:02] [ERROR] [MYSQL-INIT] Failed to seed default packages: Access denied for user 'bapivalidasi_db'@'localhost' (using password: YES)
+[2026-05-13 16:10:52] [ERROR] [MYSQL] Warning: Failed to set timezone to +07:00: Access denied for user 'bapivalidasi_db'@'localhost' (using password: YES)
+[2026-05-13 16:10:52] [ERROR] [CONFIG] Warning: Could not load settings from MySQL: Access denied for user 'bapivalidasi_db'@'localhost' (using password: YES)
+[2026-05-13 16:10:52] [ERROR] [MYSQL-INIT] Failed to ensure api_logs table: Access denied for user 'bapivalidasi_db'@'localhost' (using password: YES)
+[2026-05-13 16:10:52] [ERROR] [MYSQL-INIT] Failed to backfill member_code: Access denied for user 'bapivalidasi_db'@'localhost' (using password: YES)
+[2026-05-13 16:10:52] [ERROR] [MYSQL-INIT] Failed to ensure member_package_invoices table: Access denied for user 'bapivalidasi_db'@'localhost' (using password: YES)
+[2026-05-13 16:10:52] [ERROR] [MYSQL-INIT] Failed to ensure payment_method_settings table: Access denied for user 'bapivalidasi_db'@'localhost' (using password: YES)
+[2026-05-13 16:10:52] [ERROR] [MYSQL-INIT] Failed to ensure wa_otp_sessions table: Access denied for user 'bapivalidasi_db'@'localhost' (using password: YES)
+[2026-05-13 16:10:52] [ERROR] [MYSQL-INIT] Failed to ensure member_registration_drafts table: Access denied for user 'bapivalidasi_db'@'localhost' (using password: YES)
+[2026-05-13 16:10:52] [ERROR] [MYSQL-INIT] Failed to ensure wa_message_logs table: Access denied for user 'bapivalidasi_db'@'localhost' (using password: YES)
+[2026-05-13 16:10:52] [ERROR] [MYSQL-INIT] Error on statement: SET NAMES utf8mb4... Access denied for user 'bapivalidasi_db'@'localhost' (using password: YES)
+[2026-05-13 16:10:52] [ERROR] [MYSQL-INIT] Error on statement: SET FOREIGN_KEY_CHECKS = 0... Access denied for user 'bapivalidasi_db'@'localhost' (using password: YES)
+[2026-05-13 16:10:52] [ERROR] [MYSQL-INIT] Error on statement: CREATE TABLE IF NOT EXISTS packages (
+  package_id... Access denied for user 'bapivalidasi_db'@'localhost' (using password: YES)
+[2026-05-13 16:10:52] [ERROR] [MYSQL-INIT] Error on statement: CREATE TABLE IF NOT EXISTS api_keys (
+  id INT AU... Access denied for user 'bapivalidasi_db'@'localhost' (using password: YES)
+[2026-05-13 16:10:52] [ERROR] [MYSQL-INIT] Error on statement: CREATE TABLE IF NOT EXISTS api_logs (
+  id INT AU... Access denied for user 'bapivalidasi_db'@'localhost' (using password: YES)
+[2026-05-13 16:10:52] [ERROR] [MYSQL-INIT] Error on statement: CREATE TABLE IF NOT EXISTS balance_logs (
+  id IN... Access denied for user 'bapivalidasi_db'@'localhost' (using password: YES)
+[2026-05-13 16:10:52] [ERROR] [MYSQL-INIT] Error on statement: CREATE TABLE IF NOT EXISTS api_settings (
+  setti... Access denied for user 'bapivalidasi_db'@'localhost' (using password: YES)
+[2026-05-13 16:10:52] [ERROR] [MYSQL-INIT] Error on statement: INSERT IGNORE INTO packages (package_id, name, pri... Access denied for user 'bapivalidasi_db'@'localhost' (using password: YES)
+[2026-05-13 16:10:52] [ERROR] [MYSQL-INIT] Error on statement: INSERT IGNORE INTO api_settings (setting_key, sett... Access denied for user 'bapivalidasi_db'@'localhost' (using password: YES)
+[2026-05-13 16:10:52] [ERROR] [MYSQL-INIT] Error on statement: CREATE TABLE IF NOT EXISTS member_accounts (
+  id ... Access denied for user 'bapivalidasi_db'@'localhost' (using password: YES)
+[2026-05-13 16:10:52] [ERROR] [MYSQL-INIT] Error on statement: CREATE TABLE IF NOT EXISTS member_sessions (
+  id ... Access denied for user 'bapivalidasi_db'@'localhost' (using password: YES)
+[2026-05-13 16:10:52] [ERROR] [MYSQL-INIT] Error on statement: CREATE TABLE IF NOT EXISTS member_api_keys (
+  id ... Access denied for user 'bapivalidasi_db'@'localhost' (using password: YES)
+[2026-05-13 16:10:52] [ERROR] [MYSQL-INIT] Error on statement: CREATE TABLE IF NOT EXISTS member_wallet_transacti... Access denied for user 'bapivalidasi_db'@'localhost' (using password: YES)
+[2026-05-13 16:10:52] [ERROR] [MYSQL-INIT] Error on statement: CREATE TABLE IF NOT EXISTS member_package_subscrip... Access denied for user 'bapivalidasi_db'@'localhost' (using password: YES)
+[2026-05-13 16:10:52] [ERROR] [MYSQL-INIT] Error on statement: CREATE TABLE IF NOT EXISTS member_package_invoices... Access denied for user 'bapivalidasi_db'@'localhost' (using password: YES)
+[2026-05-13 16:10:52] [ERROR] [MYSQL-INIT] Error on statement: CREATE TABLE IF NOT EXISTS member_topups (
+  id IN... Access denied for user 'bapivalidasi_db'@'localhost' (using password: YES)
+[2026-05-13 16:10:52] [ERROR] [MYSQL-INIT] Error on statement: CREATE TABLE IF NOT EXISTS member_mode_changes (
+ ... Access denied for user 'bapivalidasi_db'@'localhost' (using password: YES)
+[2026-05-13 16:10:52] [ERROR] [MYSQL-INIT] Error on statement: CREATE TABLE IF NOT EXISTS member_pin_reset_logs (... Access denied for user 'bapivalidasi_db'@'localhost' (using password: YES)
+[2026-05-13 16:10:52] [ERROR] [MYSQL-INIT] Error on statement: CREATE TABLE IF NOT EXISTS response_mappings (
+  i... Access denied for user 'bapivalidasi_db'@'localhost' (using password: YES)
+[2026-05-13 16:10:52] [ERROR] [MYSQL-INIT] Error on statement: CREATE TABLE IF NOT EXISTS response_mapping_versio... Access denied for user 'bapivalidasi_db'@'localhost' (using password: YES)
+[2026-05-13 16:10:52] [ERROR] [MYSQL-INIT] Error on statement: SET FOREIGN_KEY_CHECKS = 1... Access denied for user 'bapivalidasi_db'@'localhost' (using password: YES)
+[2026-05-13 16:10:52] [ERROR] [MYSQL-INIT] Failed to create PUBLIC_TRIAL user: Access denied for user 'bapivalidasi_db'@'localhost' (using password: YES)
+[2026-05-13 16:10:52] [ERROR] [MYSQL-INIT] Saldo-only migration failed: Access denied for user 'bapivalidasi_db'@'localhost' (using password: YES)
+[2026-05-13 16:10:52] [ERROR] [MYSQL-INIT] Failed to seed default packages: Access denied for user 'bapivalidasi_db'@'localhost' (using password: YES)
+[2026-05-13 16:48:46] [ERROR] [MYSQL] Warning: Failed to set timezone to +07:00: Access denied for user 'bapivalidasi_db'@'localhost' (using password: YES)
+[2026-05-13 16:48:46] [ERROR] [CONFIG] Warning: Could not load settings from MySQL: Access denied for user 'bapivalidasi_db'@'localhost' (using password: YES)
+[2026-05-13 16:48:46] [ERROR] [MYSQL-INIT] Failed to ensure api_logs table: Access denied for user 'bapivalidasi_db'@'localhost' (using password: YES)
+[2026-05-13 16:48:46] [ERROR] [MYSQL-INIT] Failed to backfill member_code: Access denied for user 'bapivalidasi_db'@'localhost' (using password: YES)
+[2026-05-13 16:48:46] [ERROR] [MYSQL-INIT] Failed to ensure member_package_invoices table: Access denied for user 'bapivalidasi_db'@'localhost' (using password: YES)
+[2026-05-13 16:48:46] [ERROR] [MYSQL-INIT] Failed to ensure payment_method_settings table: Access denied for user 'bapivalidasi_db'@'localhost' (using password: YES)
+[2026-05-13 16:48:46] [ERROR] [MYSQL-INIT] Failed to ensure wa_otp_sessions table: Access denied for user 'bapivalidasi_db'@'localhost' (using password: YES)
+[2026-05-13 16:48:46] [ERROR] [MYSQL-INIT] Failed to ensure member_registration_drafts table: Access denied for user 'bapivalidasi_db'@'localhost' (using password: YES)
+[2026-05-13 16:48:46] [ERROR] [MYSQL-INIT] Failed to ensure wa_message_logs table: Access denied for user 'bapivalidasi_db'@'localhost' (using password: YES)
+[2026-05-13 16:48:46] [ERROR] [MYSQL-INIT] Error on statement: SET NAMES utf8mb4... Access denied for user 'bapivalidasi_db'@'localhost' (using password: YES)
+[2026-05-13 16:48:46] [ERROR] [MYSQL-INIT] Error on statement: SET FOREIGN_KEY_CHECKS = 0... Access denied for user 'bapivalidasi_db'@'localhost' (using password: YES)
+[2026-05-13 16:48:46] [ERROR] [MYSQL-INIT] Error on statement: CREATE TABLE IF NOT EXISTS packages (
+  package_id... Access denied for user 'bapivalidasi_db'@'localhost' (using password: YES)
+[2026-05-13 16:48:46] [ERROR] [MYSQL-INIT] Error on statement: CREATE TABLE IF NOT EXISTS api_keys (
+  id INT AU... Access denied for user 'bapivalidasi_db'@'localhost' (using password: YES)
+[2026-05-13 16:48:46] [ERROR] [MYSQL-INIT] Error on statement: CREATE TABLE IF NOT EXISTS api_logs (
+  id INT AU... Access denied for user 'bapivalidasi_db'@'localhost' (using password: YES)
+[2026-05-13 16:48:46] [ERROR] [MYSQL-INIT] Error on statement: CREATE TABLE IF NOT EXISTS balance_logs (
+  id IN... Access denied for user 'bapivalidasi_db'@'localhost' (using password: YES)
+[2026-05-13 16:48:46] [ERROR] [MYSQL-INIT] Error on statement: CREATE TABLE IF NOT EXISTS api_settings (
+  setti... Access denied for user 'bapivalidasi_db'@'localhost' (using password: YES)
+[2026-05-13 16:48:46] [ERROR] [MYSQL-INIT] Error on statement: INSERT IGNORE INTO packages (package_id, name, pri... Access denied for user 'bapivalidasi_db'@'localhost' (using password: YES)
+[2026-05-13 16:48:46] [ERROR] [MYSQL-INIT] Error on statement: INSERT IGNORE INTO api_settings (setting_key, sett... Access denied for user 'bapivalidasi_db'@'localhost' (using password: YES)
+[2026-05-13 16:48:46] [ERROR] [MYSQL-INIT] Error on statement: CREATE TABLE IF NOT EXISTS member_accounts (
+  id ... Access denied for user 'bapivalidasi_db'@'localhost' (using password: YES)
+[2026-05-13 16:48:46] [ERROR] [MYSQL-INIT] Error on statement: CREATE TABLE IF NOT EXISTS member_sessions (
+  id ... Access denied for user 'bapivalidasi_db'@'localhost' (using password: YES)
+[2026-05-13 16:48:46] [ERROR] [MYSQL-INIT] Error on statement: CREATE TABLE IF NOT EXISTS member_api_keys (
+  id ... Access denied for user 'bapivalidasi_db'@'localhost' (using password: YES)
+[2026-05-13 16:48:46] [ERROR] [MYSQL-INIT] Error on statement: CREATE TABLE IF NOT EXISTS member_wallet_transacti... Access denied for user 'bapivalidasi_db'@'localhost' (using password: YES)
+[2026-05-13 16:48:46] [ERROR] [MYSQL-INIT] Error on statement: CREATE TABLE IF NOT EXISTS member_package_subscrip... Access denied for user 'bapivalidasi_db'@'localhost' (using password: YES)
+[2026-05-13 16:48:46] [ERROR] [MYSQL-INIT] Error on statement: CREATE TABLE IF NOT EXISTS member_package_invoices... Access denied for user 'bapivalidasi_db'@'localhost' (using password: YES)
+[2026-05-13 16:48:46] [ERROR] [MYSQL-INIT] Error on statement: CREATE TABLE IF NOT EXISTS member_topups (
+  id IN... Access denied for user 'bapivalidasi_db'@'localhost' (using password: YES)
+[2026-05-13 16:48:46] [ERROR] [MYSQL-INIT] Error on statement: CREATE TABLE IF NOT EXISTS member_mode_changes (
+ ... Access denied for user 'bapivalidasi_db'@'localhost' (using password: YES)
+[2026-05-13 16:48:46] [ERROR] [MYSQL-INIT] Error on statement: CREATE TABLE IF NOT EXISTS member_pin_reset_logs (... Access denied for user 'bapivalidasi_db'@'localhost' (using password: YES)
+[2026-05-13 16:48:46] [ERROR] [MYSQL-INIT] Error on statement: CREATE TABLE IF NOT EXISTS response_mappings (
+  i... Access denied for user 'bapivalidasi_db'@'localhost' (using password: YES)
+[2026-05-13 16:48:46] [ERROR] [MYSQL-INIT] Error on statement: CREATE TABLE IF NOT EXISTS response_mapping_versio... Access denied for user 'bapivalidasi_db'@'localhost' (using password: YES)
+[2026-05-13 16:48:46] [ERROR] [MYSQL-INIT] Error on statement: SET FOREIGN_KEY_CHECKS = 1... Access denied for user 'bapivalidasi_db'@'localhost' (using password: YES)
+[2026-05-13 16:48:46] [ERROR] [MYSQL-INIT] Failed to create PUBLIC_TRIAL user: Access denied for user 'bapivalidasi_db'@'localhost' (using password: YES)
+[2026-05-13 16:48:46] [ERROR] [MYSQL-INIT] Saldo-only migration failed: Access denied for user 'bapivalidasi_db'@'localhost' (using password: YES)
+[2026-05-13 16:48:46] [ERROR] [MYSQL-INIT] Failed to seed default packages: Access denied for user 'bapivalidasi_db'@'localhost' (using password: YES)
