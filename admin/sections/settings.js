@@ -1,19 +1,20 @@
+const { renderPageHeader } = require('../components');
+
 module.exports = function renderSettingsSection(ctx = {}) {
   with (ctx) {
+    const _settingsHeader = renderPageHeader({
+      icon:    'bi-sliders2-vertical',
+      title:   'Konfigurasi Sistem',
+      subtitle: 'Atur server, billing, keamanan, cache, dan member portal.',
+      actions: `<span class="badge" style="background:rgba(22,163,74,.1);color:#15803d;font-size:11px;font-weight:600;padding:5px 10px;border-radius:6px;border:1px solid rgba(22,163,74,.2);">
+                   <i class="bi bi-shield-check me-1"></i>Safe Config Mode
+                 </span>`
+    });
     return `<!-- ============================= SETTINGS TAB ============================= -->
   <div id="main-settings" class="main-tab-pane settings-premium-pane" style="display:none;">
-    <div class="settings-hero">
-      <div>
-        <div class="settings-hero-kicker"><i class="bi bi-sliders2-vertical"></i> System Control Center</div>
-        <h2>Konfigurasi Sistem</h2>
-        <p>Atur server, billing, keamanan, cache, dan member portal dari satu halaman yang lebih rapi dan cepat.</p>
-      </div>
-      <div class="settings-hero-badge">
-        <i class="bi bi-shield-check"></i>
-        <span>Safe Config Mode</span>
-      </div>
-    </div>
+    ${_settingsHeader}
     ${savedMsg}
+
     <div id="settings-container" class="settings-container">
   <form id="settings-form" class="settings-form premium-settings-form" action="/admin/save" method="POST" onsubmit="saveSettings(event)">
 
@@ -65,17 +66,39 @@ module.exports = function renderSettingsSection(ctx = {}) {
             <i class="bi bi-sliders me-1"></i><span style="font-weight:600;">Konfigurasi Per Layanan</span>
           </div>
           <div class="card-body p-0">
-            <div class="svc-tab-shell">
-              <button type="button" class="svc-tab-btn active" onclick="switchSvcTab('svc-bank',this)"><i class="bi bi-bank2 me-1"></i>BANK</button>
-              <button type="button" class="svc-tab-btn" onclick="switchSvcTab('svc-ewallet',this)"><i class="bi bi-wallet2 me-1"></i>EWALLET</button>
-              <button type="button" class="svc-tab-btn" onclick="switchSvcTab('svc-wa',this)"><i class="bi bi-whatsapp me-1"></i>WHATSAPP</button>
-              <button type="button" class="svc-tab-btn" onclick="switchSvcTab('svc-nik',this)"><i class="bi bi-person-vcard-fill me-1"></i>NIK</button>
-              <button type="button" class="svc-tab-btn" onclick="switchSvcTab('svc-bpjs',this)"><i class="bi bi-heart-pulse me-1"></i>BPJS</button>
-              <button type="button" class="svc-tab-btn" onclick="switchSvcTab('svc-pln',this)"><i class="bi bi-lightning-charge-fill me-1"></i>PLN</button>
-              <button type="button" class="svc-tab-btn" onclick="switchSvcTab('svc-games',this)"><i class="bi bi-controller me-1"></i>GAMES</button>
-              <button type="button" class="svc-tab-btn" onclick="switchSvcTab('svc-ai',this)"><i class="bi bi-stars me-1"></i>Foto Editor</button>
-              <button type="button" class="svc-tab-btn" onclick="switchSvcTab('svc-other',this)"><i class="bi bi-gear me-1"></i>OTHER</button>
-            </div>
+            <div class="svc-vtab-shell">
+              <!-- Left vertical nav — switchSvcTab() tetap bekerja karena .svc-tab-pane IDs tidak berubah -->
+              <nav class="svc-vnav">
+                <button type="button" class="svc-vnav__item active" onclick="switchSvcTab('svc-bank',this)" id="svc-btn-bank">
+                  <i class="bi bi-bank2"></i><span class="svc-vnav__label">Bank</span>
+                </button>
+                <button type="button" class="svc-vnav__item" onclick="switchSvcTab('svc-ewallet',this)" id="svc-btn-ewallet">
+                  <i class="bi bi-wallet2"></i><span class="svc-vnav__label">E-Wallet</span>
+                </button>
+                <button type="button" class="svc-vnav__item" onclick="switchSvcTab('svc-wa',this)" id="svc-btn-wa">
+                  <i class="bi bi-whatsapp"></i><span class="svc-vnav__label">WhatsApp</span>
+                </button>
+                <button type="button" class="svc-vnav__item" onclick="switchSvcTab('svc-nik',this)" id="svc-btn-nik">
+                  <i class="bi bi-person-vcard-fill"></i><span class="svc-vnav__label">NIK</span>
+                </button>
+                <button type="button" class="svc-vnav__item" onclick="switchSvcTab('svc-bpjs',this)" id="svc-btn-bpjs">
+                  <i class="bi bi-heart-pulse"></i><span class="svc-vnav__label">BPJS</span>
+                </button>
+                <button type="button" class="svc-vnav__item" onclick="switchSvcTab('svc-pln',this)" id="svc-btn-pln">
+                  <i class="bi bi-lightning-charge-fill"></i><span class="svc-vnav__label">PLN</span>
+                </button>
+                <button type="button" class="svc-vnav__item" onclick="switchSvcTab('svc-games',this)" id="svc-btn-games">
+                  <i class="bi bi-controller"></i><span class="svc-vnav__label">Games</span>
+                </button>
+                <button type="button" class="svc-vnav__item" onclick="switchSvcTab('svc-ai',this)" id="svc-btn-ai">
+                  <i class="bi bi-stars"></i><span class="svc-vnav__label">Foto Editor</span>
+                </button>
+                <button type="button" class="svc-vnav__item" onclick="switchSvcTab('svc-other',this)" id="svc-btn-other">
+                  <i class="bi bi-gear"></i><span class="svc-vnav__label">Other</span>
+                </button>
+              </nav>
+              <!-- Right content — panes unchanged -->
+              <div class="svc-vcontent">
 
             <!-- TAB: BANK -->
             <div id="svc-bank" class="svc-tab-pane">
@@ -919,6 +942,8 @@ module.exports = function renderSettingsSection(ctx = {}) {
                 </tbody>
               </table>
             </div>
+              </div><!-- /.svc-vcontent -->
+            </div><!-- /.svc-vtab-shell -->
           </div>
         </div>
 

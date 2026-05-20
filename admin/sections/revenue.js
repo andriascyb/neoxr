@@ -1,16 +1,27 @@
+/**
+ * admin/sections/revenue.js
+ * Analisa Pendapatan — PageHeader Claude-like menggantikan revenue-hero.
+ * Semua DOM ID dipertahankan: rv-topup-success/pending, rv-package-paid,
+ * rv-wallet-debit, revenue-topups-body, dll.
+ */
+const { renderPageHeader } = require('../components');
+
 module.exports = function renderRevenueSection() {
+  const pageHeader = renderPageHeader({
+    icon:     'bi-bar-chart-line-fill',
+    title:    'Analisa Pendapatan',
+    subtitle: 'Ringkasan topup, pemasukan, dan histori transaksi member.',
+    actions:  `<button class="btn btn-sm btn-outline-secondary" onclick="loadRevenueAnalytics()">
+                 <i class="bi bi-arrow-repeat me-1"></i>Refresh Data
+               </button>`
+  });
+
   return `
   <div id="main-revenue" class="main-tab-pane revenue-pane" style="display:none;">
-    <div class="revenue-hero">
-      <div class="revenue-hero-content">
-        <span class="revenue-kicker"><i class="bi bi-bar-chart-line-fill"></i> Finance Monitor</span>
-        <h2>Analisa Pendapatan</h2>
-        <p>Ringkasan topup, pemasukan, dan histori transaksi member dengan tampilan operasional yang lebih fokus.</p>
-      </div>
-      <button class="btn btn-sm revenue-refresh-btn" onclick="loadRevenueAnalytics()"><i class="bi bi-arrow-repeat me-1"></i>Refresh Data</button>
-    </div>
 
-    <div class="row g-3 mb-3">
+    ${pageHeader}
+
+    <div class="row g-3 mb-3 mt-3">
       <div class="col-12 col-md-6 col-xl-3">
         <div class="card revenue-stat-card revenue-glow success">
           <div class="card-body">
@@ -48,10 +59,12 @@ module.exports = function renderRevenueSection() {
     <div class="card mb-3 revenue-table-card">
       <div class="card-header d-flex justify-content-between align-items-center">
         <div>
-          <span class="fw-600" style="font-weight:600;">Riwayat Topup Member</span>
-          <div class="text-muted" style="font-size:12px;">Gunakan data ini untuk validasi status pembayaran dan audit invoice member.</div>
+          <span style="font-weight:600;">Riwayat Topup Member</span>
+          <div class="text-muted" style="font-size:12px;">Validasi status pembayaran dan audit invoice member.</div>
         </div>
-        <button class="btn btn-sm btn-outline-info" onclick="loadRevenueAnalytics()"><i class="bi bi-arrow-repeat me-1"></i>Refresh</button>
+        <button class="btn btn-sm btn-outline-secondary" onclick="loadRevenueAnalytics()">
+          <i class="bi bi-arrow-repeat me-1"></i>Refresh
+        </button>
       </div>
       <div class="card-body p-0">
         <div class="table-responsive">
@@ -68,7 +81,14 @@ module.exports = function renderRevenueSection() {
               </tr>
             </thead>
             <tbody id="revenue-topups-body">
-              <tr><td colspan="7" class="text-center text-muted">Loading...</td></tr>
+              <tr>
+                <td colspan="7" class="text-center py-4">
+                  <span class="kr-skeleton-row">
+                    <span class="spinner-border spinner-border-sm me-2"></span>
+                    Memuat data pendapatan...
+                  </span>
+                </td>
+              </tr>
             </tbody>
           </table>
         </div>

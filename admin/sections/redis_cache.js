@@ -1,9 +1,31 @@
+/**
+ * admin/sections/redis_cache.js
+ * Redis Cache Audit — PageHeader Claude-like menggantikan section-title lama.
+ * Semua DOM ID dipertahankan: redis-audit-service, redis-audit-q,
+ * redis-audit-status, redis-audit-body, redis-audit-page-info, dll.
+ */
+const { renderPageHeader } = require('../components');
+
 module.exports = function renderRedisCacheSection() {
+  const pageHeader = renderPageHeader({
+    icon:     'bi-memory',
+    title:    'Redis Cache Audit',
+    subtitle: 'Pantau, cari, dan bersihkan cache key aplikasi secara langsung.',
+    actions: `
+      <button class="btn btn-sm btn-outline-secondary" onclick="setRedisAuditPage(1)">
+        <i class="bi bi-arrow-repeat me-1"></i>Refresh
+      </button>
+      <button class="btn btn-sm btn-danger-soft" onclick="flushRedisAuditPrefix()">
+        <i class="bi bi-trash me-1"></i>Flush Prefix App
+      </button>`
+  });
+
   return `
   <div id="main-redis-cache" class="main-tab-pane" style="display:none;">
-    <div class="section-title"><i class="bi bi-memory me-1"></i> Audit Redis Cache</div>
 
-    <div class="card mb-3">
+    ${pageHeader}
+
+    <div class="card mb-3 mt-3">
       <div class="card-body">
         <div class="row g-2 align-items-end">
           <div class="col-md-2">
@@ -18,18 +40,21 @@ module.exports = function renderRedisCacheSection() {
           </div>
           <div class="col-md-4">
             <label class="form-label">Cari Key</label>
-            <input id="redis-audit-q" type="text" class="form-control" placeholder="contoh: 0812 atau bca" oninput="setRedisAuditPage(1)">
-          </div>
-          <div class="col-md-6 d-flex gap-2">
-            <button class="btn btn-primary" type="button" onclick="setRedisAuditPage(1)"><i class="bi bi-arrow-repeat me-1"></i>Refresh</button>
-            <button class="btn btn-danger-soft" type="button" onclick="flushRedisAuditPrefix()"><i class="bi bi-trash me-1"></i>Flush Prefix App</button>
+            <div class="input-group">
+              <span class="input-group-text bg-transparent"><i class="bi bi-search text-muted"></i></span>
+              <input id="redis-audit-q" type="text" class="form-control border-start-0"
+                placeholder="contoh: 0812 atau bca" oninput="setRedisAuditPage(1)">
+            </div>
           </div>
         </div>
       </div>
     </div>
 
     <div class="card mb-3">
-      <div class="card-header"><strong>Status Redis</strong></div>
+      <div class="card-header d-flex align-items-center gap-2">
+        <i class="bi bi-circle-fill" style="font-size:8px;color:var(--kr-green,#16a34a);"></i>
+        <strong>Status Redis</strong>
+      </div>
       <div class="card-body">
         <div id="redis-audit-status" class="text-muted">Loading status...</div>
       </div>
@@ -52,7 +77,14 @@ module.exports = function renderRedisCacheSection() {
               </tr>
             </thead>
             <tbody id="redis-audit-body">
-              <tr><td colspan="7" class="text-center text-muted">Loading...</td></tr>
+              <tr>
+                <td colspan="7" class="text-center py-4">
+                  <span class="kr-skeleton-row">
+                    <span class="spinner-border spinner-border-sm me-2"></span>
+                    Memuat cache keys...
+                  </span>
+                </td>
+              </tr>
             </tbody>
           </table>
         </div>
@@ -67,8 +99,10 @@ module.exports = function renderRedisCacheSection() {
           </div>
           <div id="redis-audit-page-info" class="text-muted" style="font-size:12px;">Page 1</div>
           <div class="d-flex align-items-center gap-2">
-            <button class="btn btn-outline-secondary btn-sm" type="button" id="redis-audit-prev" onclick="setRedisAuditPage((window.__REDIS_AUDIT_PAGE__||1)-1)">Prev</button>
-            <button class="btn btn-outline-secondary btn-sm" type="button" id="redis-audit-next" onclick="setRedisAuditPage((window.__REDIS_AUDIT_PAGE__||1)+1)">Next</button>
+            <button class="btn btn-outline-secondary btn-sm" type="button" id="redis-audit-prev"
+              onclick="setRedisAuditPage((window.__REDIS_AUDIT_PAGE__||1)-1)">Prev</button>
+            <button class="btn btn-outline-secondary btn-sm" type="button" id="redis-audit-next"
+              onclick="setRedisAuditPage((window.__REDIS_AUDIT_PAGE__||1)+1)">Next</button>
           </div>
         </div>
       </div>
@@ -76,3 +110,4 @@ module.exports = function renderRedisCacheSection() {
   </div>
   `;
 };
+

@@ -52,6 +52,7 @@ const helmet = require('helmet');
 const hpp = require('hpp');
 const rateLimit = require('express-rate-limit');
 const crypto = require('crypto');
+const adminSession = require('./lib/admin_session');
 
 const app = express();
 const trustProxyHopsRaw = process.env.TRUST_PROXY_HOPS;
@@ -121,43 +122,9 @@ app.use('/api/v3/upload-image-temp', express.json({ limit: '6mb' }));
 app.use(express.json({ limit: '10kb' }));
 app.use(express.urlencoded({ extended: true, limit: '10kb' }));
 
-const readCookieValue = (cookieHeader, name) => {
-  const src = String(cookieHeader || '');
-  if (!src) return '';
-  const wanted = `${name}=`;
-  const parts = src.split(';');
-  for (const part of parts) {
-    const item = part.trim();
-    if (item.startsWith(wanted)) {
-      return decodeURIComponent(item.slice(wanted.length));
-    }
-  }
-  return '';
-};
+const readCookieValue = (cookieHeader, name) => adminSession.readCookieValue(cookieHeader, name);
 
-const ADMIN_SESSION_TTL_MS = 12 * 60 * 60 * 1000;
-const getAdminSessionSecret = () => {
-  const raw = String(process.env.ADMIN_SESSION_SECRET || cfg.ADMIN_KEY || 'admin_session_secret').trim();
-  return crypto.createHash('sha256').update(raw).digest('hex');
-};
-const verifyAdminSessionToken = (token) => {
-  const parts = String(token || '').trim().split('.');
-  if (parts.length !== 4 || parts[0] !== 'v1') return false;
-  const ts = Number(parts[1]);
-  const nonce = parts[2];
-  const sig = parts[3];
-  if (!Number.isFinite(ts) || !nonce || !sig) return false;
-  if ((Date.now() - ts) > ADMIN_SESSION_TTL_MS || ts > (Date.now() + 5 * 60 * 1000)) return false;
-  const expected = crypto
-    .createHmac('sha256', getAdminSessionSecret())
-    .update(`${ts}.${nonce}`)
-    .digest('hex');
-  try {
-    return crypto.timingSafeEqual(Buffer.from(sig), Buffer.from(expected));
-  } catch (e) {
-    return false;
-  }
-};
+const verifyAdminSessionToken = (token) => adminSession.verifyAdminSessionToken(token);
 
 // Backward-compatible admin auth helper:
 // allows x-admin-key header while preserving legacy query key flow.

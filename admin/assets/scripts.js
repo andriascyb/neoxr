@@ -3,12 +3,13 @@ module.exports = function renderAdminScripts(ctx = {}) {
     const shouldLoadSettingsExtras = activePage === 'settings' || activePage === 'members' || activePage === 'revenue' || activePage === 'redis-cache';
     const extraScripts = shouldLoadSettingsExtras ? EXTRA_ADMIN_SCRIPTS : '';
     return `
+/* ─── saveSettings: kNotify primary, Bootstrap Toast fallback ─── */
 window.saveSettings = function(e) {
   e.preventDefault();
-  const form = (e && e.target && e.target.tagName === 'FORM') ? e.target : document.getElementById('settings-form');
-  if (!form) return alert('Form pengaturan tidak ditemukan.');
-  const btn = form.querySelector('button[type="submit"]');
-  const origHTML = btn ? btn.innerHTML : '';
+  var form = (e && e.target && e.target.tagName === 'FORM') ? e.target : document.getElementById('settings-form');
+  if (!form) { if (window.kNotify) { kNotify.error('Form pengaturan tidak ditemukan.'); } else { alert('Form pengaturan tidak ditemukan.'); } return; }
+  var btn = form.querySelector('button[type="submit"]');
+  var origHTML = btn ? btn.innerHTML : '';
   if (btn) {
     btn.disabled = true;
     btn.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span>Menyimpan...';
@@ -16,21 +17,32 @@ window.saveSettings = function(e) {
   fetch(form.action, { method: 'POST', headers: { 'Content-Type': 'application/x-www-form-urlencoded', 'X-Requested-With': 'XMLHttpRequest' }, body: new URLSearchParams(new FormData(form)).toString() })
     .then(function(r) {
       if (r.ok) {
-        var toastEl = document.getElementById('settings-toast');
-        var toast = new bootstrap.Toast(toastEl, { delay: 3000 });
-        toast.show();
+        if (window.kNotify) {
+          kNotify.success('Pengaturan berhasil disimpan!');
+        } else {
+          var toastEl = document.getElementById('settings-toast');
+          if (toastEl && window.bootstrap) new bootstrap.Toast(toastEl, { delay: 3000 }).show();
+        }
       } else {
-        alert('Gagal menyimpan pengaturan. Status: ' + r.status);
+        if (window.kNotify) { kNotify.error('Gagal menyimpan. Status: ' + r.status); }
+        else { alert('Gagal menyimpan pengaturan. Status: ' + r.status); }
       }
     })
-    .catch(function(err) { alert('Error: ' + err.message); })
+    .catch(function(err) {
+      if (window.kNotify) { kNotify.error('Error: ' + (err && err.message || err)); }
+      else { alert('Error: ' + (err && err.message || err)); }
+    })
     .finally(function() { if (btn) { btn.disabled = false; btn.innerHTML = origHTML; } });
 };
 window.syncDB = function() {
   log('Syncing MySQL cache...');
-  fetch('/admin/sync-db?key=${ADMIN_KEY}').then(r=>r.json()).then(d=>{
-    alert(d.message);
+  fetch('/admin/sync-db?key=' + encodeURIComponent(window.__ADMIN_KEY__ || '')).then(r=>r.json()).then(function(d) {
+    if (window.kNotify) { kNotify.success(d.message || 'Cache database di-reset.'); }
+    else { alert(d.message); }
     log('DB Sync OK');
+  }).catch(function(err) {
+    if (window.kNotify) { kNotify.error('Sync gagal: ' + (err && err.message || err)); }
+    else { alert('Sync gagal: ' + (err && err.message || err)); }
   });
 };
 window.log = function(m) {
@@ -54,9 +66,10 @@ window.refreshPoolCookies = function(service) {
     .then(function(res){
       if (!res || !res.status) throw new Error((res && (res.error || res.message)) || 'Gagal refresh cookie');
       var d = (res && res.data) || {};
-      alert('Refresh cookie selesai. Updated: ' + Number(d.updated || 0) + ', Failed: ' + Number(d.failed || 0));
+      var msg = 'Refresh cookie selesai. Updated: ' + Number(d.updated || 0) + ', Failed: ' + Number(d.failed || 0);
+      if (window.kNotify) { kNotify.success(msg); } else { alert(msg); }
     })
-    .catch(function(err){ alert('Error refresh cookie: ' + err.message); });
+    .catch(function(err) { var m = 'Error refresh cookie: ' + (err && err.message || err); if (window.kNotify) { kNotify.error(m); } else { alert(m); } });
 };
 window.stripAdminKeyFromUrl = function() {
   try {
@@ -615,7 +628,7 @@ window.switchSvcTab = function(tabId, btn) {
   // Hide all service tab panes
   document.querySelectorAll('.svc-tab-pane').forEach(function(el) { el.style.display = 'none'; });
   // Remove active from all tab buttons
-  document.querySelectorAll('.svc-tab-btn').forEach(function(el) { el.classList.remove('active'); });
+  document.querySelectorAll('.svc-tab-btn, .svc-vnav__item').forEach(function(el) { el.classList.remove('active'); });
   // Show selected pane & activate button
   var pane = document.getElementById(tabId);
   if (pane) pane.style.display = 'block';
@@ -1577,9 +1590,12 @@ window.copyToClipboard = function(text) {
       var b=document.getElementById('mysql-status-badge');
       if(!b)return;
       if(d.connected){
-        b.className='badge badge-green'; b.innerHTML='<i class="bi bi-circle-fill me-1" style="font-size:7px;"></i>MySQL Ready';
+        b.className='kr-status-pill kr-status-pill--success';
+        b.innerHTML='<span class="kr-status-pill__dot"></span><span>MySQL Ready</span>';
       } else {
-        b.className='badge badge-red'; b.innerHTML='<i class="bi bi-circle-fill me-1" style="font-size:7px;"></i>MySQL Error';
+        b.className='kr-status-pill kr-status-pill--error' ;
+        b.style.color='var(--kr-red)';b.style.background='var(--kr-red-soft)';
+        b.innerHTML='<span class="kr-status-pill__dot"></span><span>MySQL Error</span>';
       }
     });
 

@@ -1,15 +1,16 @@
+const { renderPageHeader } = require('../components');
+
 module.exports = function renderVpsSection(ctx = {}) {
   with (ctx) {
+    const _ph = renderPageHeader({
+      icon: 'bi-hdd-stack-fill',
+      title: 'VPS Status & Resource Monitor',
+      subtitle: 'CPU, memori, disk, network, dan proses server secara real-time.',
+      actions: `<button class=\"btn btn-sm btn-outline-secondary\" onclick=\"loadVPSStatus()\"><i class=\"bi bi-arrow-repeat me-1\"></i>Refresh</button><span id=\"vps-last-update\" class=\"text-muted ms-2\" style=\"font-size:12px;\">Last update: -</span>`
+    });
     return `<!-- ============================= VPS STATUS TAB ============================= -->
   <div id="main-vps" class="main-tab-pane vps-premium-pane" style="display:none;">
-    <div class="vps-hero">
-      <div>
-        <div class="vps-hero-kicker"><i class="bi bi-hdd-stack-fill"></i> Infrastructure Monitor</div>
-        <h2>VPS Status & Resource Monitoring</h2>
-        <p>Pantau resource server, proses aktif, dan status layanan inti dalam satu panel operasional premium.</p>
-      </div>
-      <div class="vps-hero-badge" id="vps-last-update">Last update: -</div>
-    </div>
+    ${_ph}
     
     <!-- Primary Resource Row -->
     <div class="row g-3 mb-4">
