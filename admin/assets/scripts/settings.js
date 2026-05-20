@@ -144,7 +144,8 @@ window.initSettingsCollapsible = function() {
 
 window.switchSvcTab = function(tabId, btn) {
   document.querySelectorAll('.svc-tab-pane').forEach(function(el) { el.style.display = 'none'; });
-  document.querySelectorAll('.svc-tab-btn').forEach(function(el) { el.classList.remove('active'); });
+  // Remove active from all nav items — support both horizontal and vertical nav
+  document.querySelectorAll('.svc-tab-btn, .svc-vnav__item').forEach(function(el) { el.classList.remove('active'); });
   var pane = document.getElementById(tabId);
   if (pane) pane.style.display = 'block';
   if (btn) btn.classList.add('active');

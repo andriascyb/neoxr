@@ -1,14 +1,15 @@
+const { renderPageHeader } = require('../components');
+
 module.exports = function renderMySqlSection(ctx = {}) {
   with (ctx) {
+    const _ph = renderPageHeader({
+      icon: 'bi-database-fill',
+      title: 'MySQL Database Management',
+      subtitle: 'Kelola status koneksi, tabel, backup, dan audit log API.',
+      actions: `<button class=\"btn btn-sm btn-outline-secondary\" onclick=\"loadMySQLInfo(); loadMySQLTables();\"><i class=\"bi bi-arrow-repeat me-1\"></i>Refresh Data</button>`
+    });
     return `<div id="main-mysql" class="main-tab-pane mysql-premium-pane" style="display:none;">
-    <div class="mysql-hero">
-      <div>
-        <div class="mysql-hero-kicker"><i class="bi bi-database-fill"></i> Database Control Center</div>
-        <h2>MySQL Database Management</h2>
-        <p>Kelola status koneksi, tabel, backup, dan audit log API dari satu dashboard yang lebih modern dan terstruktur.</p>
-      </div>
-      <button class="btn btn-primary mysql-hero-btn" onclick="loadMySQLInfo(); loadMySQLTables();"><i class="bi bi-arrow-repeat me-1"></i>Refresh Data</button>
-    </div>
+    ${_ph}
     
     <!-- Connection Status -->
     <div class="row g-3 mb-4">

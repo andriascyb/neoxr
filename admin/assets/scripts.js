@@ -628,7 +628,7 @@ window.switchSvcTab = function(tabId, btn) {
   // Hide all service tab panes
   document.querySelectorAll('.svc-tab-pane').forEach(function(el) { el.style.display = 'none'; });
   // Remove active from all tab buttons
-  document.querySelectorAll('.svc-tab-btn').forEach(function(el) { el.classList.remove('active'); });
+  document.querySelectorAll('.svc-tab-btn, .svc-vnav__item').forEach(function(el) { el.classList.remove('active'); });
   // Show selected pane & activate button
   var pane = document.getElementById(tabId);
   if (pane) pane.style.display = 'block';

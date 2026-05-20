@@ -209,13 +209,20 @@ module.exports = function renderAdminStyles() {
     .page-body { padding: 0 0 1rem; }
   }
 
-  /* section title */
+  /* section title — Claude-like uppercase label */
   .section-title {
-    font-size: 1rem; font-weight: 600; text-transform: none;
-    letter-spacing: 0; color: #343a40;
-    display: flex; align-items: center; gap: 10px; margin-bottom: 16px;
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: .7px;
+    color: var(--kr-muted);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 14px;
+    margin-top: 4px;
   }
-  .section-title::after { content:''; flex:1; height:1px; background:#dee2e6; }
+  .section-title::after { content:''; flex:1; height:1px; background:var(--kr-line); }
 
   /* Ã¢â€â‚¬Ã¢â€â‚¬ User Cards Ã¢â€â‚¬Ã¢â€â‚¬ */
   .user-card {
@@ -2037,7 +2044,7 @@ module.exports = function renderAdminStyles() {
       linear-gradient(135deg, #f9fcff, #eef5ff);
   }
   .live-kicker {
-    color: #2f6ecd;
+    color: var(--kr-muted);
     font-size: 11px;
     text-transform: uppercase;
     letter-spacing: .12em;
@@ -2045,7 +2052,7 @@ module.exports = function renderAdminStyles() {
   }
   .live-hero h2 {
     margin: 8px 0 6px;
-    color: #14263f;
+    color: var(--kr-text);
     font-size: clamp(30px, 3vw, 42px);
     font-weight: 850;
     letter-spacing: -.02em;
@@ -2345,32 +2352,36 @@ module.exports = function renderAdminStyles() {
 
   /* --- Design Tokens --- */
   :root {
-    --kr-bg: #f8fafc;
+    /* ── Claude-like palette ── */
+    --kr-bg: #f5f5f5;
     --kr-panel: #ffffff;
-    --kr-line: #e2e8f0;
-    --kr-text: #0f172a;
-    --kr-muted: #64748b;
-    --kr-accent: #2563eb;
-    --kr-accent-soft: rgba(37,99,235,.08);
+    --kr-line: #e5e5e5;
+    --kr-line-strong: #d1d5db;
+    --kr-text: #1a1a1a;
+    --kr-muted: #6b7280;
+    --kr-accent: #c96442;           /* warm accent — Claude signature */
+    --kr-accent-blue: #2563eb;      /* blue kept for data badges */
+    --kr-accent-soft: rgba(201,100,66,.08);
+    --kr-accent-blue-soft: rgba(37,99,235,.08);
     --kr-green: #16a34a;
     --kr-green-soft: rgba(22,163,74,.08);
     --kr-red: #dc2626;
     --kr-red-soft: rgba(220,38,38,.08);
     --kr-amber: #d97706;
     --kr-amber-soft: rgba(217,119,6,.08);
-    --kr-radius: 14px;
-    --kr-radius-sm: 10px;
-    --kr-shadow: 0 4px 24px rgba(15,23,42,.05);
-    --kr-shadow-lg: 0 12px 40px rgba(15,23,42,.08);
-    --kr-sidebar-bg: #0f172a;
+    --kr-radius: 10px;
+    --kr-radius-sm: 7px;
+    --kr-shadow: 0 1px 3px rgba(0,0,0,.06), 0 1px 2px rgba(0,0,0,.04);
+    --kr-shadow-lg: 0 4px 12px rgba(0,0,0,.08);
+    --kr-sidebar-bg: #1a1a1a;
     --kr-sidebar-text: rgba(248,250,252,.85);
-    --kr-sidebar-active-bg: rgba(37,99,235,.16);
-    --kr-sidebar-active-text: #60a5fa;
+    --kr-sidebar-active-bg: rgba(255,255,255,.09);
+    --kr-sidebar-active-text: #ffffff;
     --kr-topbar-bg: #ffffff;
     --kr-topbar-border: #e2e8f0;
     --kr-font: 'Inter', 'Source Sans 3', system-ui, sans-serif;
     --kr-mono: 'JetBrains Mono', 'SF Mono', 'Fira Code', monospace;
-    --sidebar-width: 260px;
+    --sidebar-width: 256px;
   }
   body {
     font-family: var(--kr-font) !important;
@@ -2400,7 +2411,7 @@ module.exports = function renderAdminStyles() {
     display: flex;
     align-items: center;
     justify-content: center;
-    background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+    background: linear-gradient(135deg, #c96442, #6b4b3e);  /* warm — Claude */
     border-radius: 10px;
     font-size: 11px;
     font-weight: 800;
@@ -2467,12 +2478,13 @@ module.exports = function renderAdminStyles() {
     font-weight: 400;
   }
   .kr-sidebar__nav .nav-link:hover {
-    background: rgba(255,255,255,.05) !important;
-    color: #f1f5f9 !important;
+    background: rgba(255,255,255,.04) !important;  /* extra subtle — Claude */
+    color: rgba(255,255,255,.95) !important;
   }
   .kr-sidebar__nav .nav-link.active {
     background: var(--kr-sidebar-active-bg) !important;
     color: var(--kr-sidebar-active-text) !important;
+    font-weight: 600;
   }
   .kr-sidebar__nav .nav-link.active::before {
     content: '';
@@ -2482,10 +2494,10 @@ module.exports = function renderAdminStyles() {
     bottom: 8px;
     width: 3px;
     border-radius: 0 3px 3px 0;
-    background: var(--kr-accent);
+    background: rgba(255,255,255,.6);   /* white bar — not colored */
   }
   .kr-sidebar__nav .nav-link.active .nav-hint {
-    color: rgba(96,165,250,.6);
+    color: rgba(255,255,255,.45);
   }
   .kr-sidebar__nav .nav-icon {
     font-size: 16px;
@@ -2543,8 +2555,8 @@ module.exports = function renderAdminStyles() {
   .kr-topbar {
     background: var(--kr-topbar-bg) !important;
     border-bottom: 1px solid var(--kr-topbar-border) !important;
-    box-shadow: 0 1px 3px rgba(15,23,42,.04);
-    min-height: 56px;
+    box-shadow: none;                  /* Claude: no shadow on topbar */
+    min-height: 48px;                  /* slim 48px — Claude */
   }
   .kr-topbar .nav-link {
     color: var(--kr-text) !important;
@@ -2556,14 +2568,22 @@ module.exports = function renderAdminStyles() {
   .kr-topbar__breadcrumb {
     display: flex;
     align-items: center;
-    gap: 6px;
+    gap: 5px;
     font-size: 13px;
     color: var(--kr-muted);
-    padding-left: 8px;
+    padding-left: 6px;
   }
-  .kr-topbar__breadcrumb-root { font-weight: 500; }
-  .kr-topbar__breadcrumb-sep { font-size: 10px; opacity: .5; }
-  .kr-topbar__breadcrumb-current { font-weight: 600; color: var(--kr-text); }
+  .kr-topbar__breadcrumb-root {
+    font-weight: 400;
+    color: var(--kr-muted);
+    font-size: 12px;
+  }
+  .kr-topbar__breadcrumb-sep { font-size: 9px; opacity: .35; }
+  .kr-topbar__breadcrumb-current {
+    font-weight: 600;
+    color: var(--kr-text);
+    font-size: 13px;
+  }
   .kr-topbar__right { gap: 8px; align-items: center; }
   .kr-topbar__date {
     font-size: 11px;
@@ -2614,62 +2634,65 @@ module.exports = function renderAdminStyles() {
   }
 
   /* --- Page Header Modern --- */
-  .kr-pageheader { padding-top: 4px !important; }
+  .kr-pageheader { padding-top: 2px !important; }
   .kr-pageheader__row { display: flex; align-items: center; }
   .kr-pageheader__title {
-    font-size: 20px !important;
-    font-weight: 700 !important;
+    font-size: 15px !important;        /* smaller — Claude topbar titles */
+    font-weight: 600 !important;
     color: var(--kr-text);
     display: flex;
     align-items: center;
-    gap: 10px;
+    gap: 8px;
   }
   .kr-pageheader__icon {
-    width: 36px; height: 36px;
+    width: 28px; height: 28px;
     display: inline-flex;
     align-items: center; justify-content: center;
-    background: var(--kr-accent-soft);
-    color: var(--kr-accent);
+    background: rgba(0,0,0,.05);
+    color: var(--kr-muted);
     border-radius: var(--kr-radius-sm);
-    font-size: 16px;
+    font-size: 14px;
   }
   .kr-pageheader__date {
     font-size: 11px !important;
-    font-weight: 600;
-    background: var(--kr-accent-soft);
-    color: var(--kr-accent);
-    border-radius: 6px;
-    padding: 2px 8px;
+    font-weight: 500;
+    background: rgba(0,0,0,.05);
+    color: var(--kr-muted);
+    border-radius: 5px;
+    padding: 2px 7px;
   }
 
   /* --- Main Content --- */
   .kr-main {
     background: var(--kr-bg) !important;
-    min-height: calc(100vh - 56px);
+    min-height: calc(100vh - 48px);
+  }
+  .container-fluid {
+    max-width: 1280px;   /* constrain content width like Claude */
   }
 
-  /* --- Card Modern (Override) --- */
+  /* --- Card Modern (Override) — Claude-like flat cards --- */
   .card {
     border-radius: var(--kr-radius) !important;
-    border-color: var(--kr-line) !important;
+    border: 1px solid var(--kr-line) !important;
     box-shadow: var(--kr-shadow) !important;
     background: var(--kr-panel) !important;
-    overflow: hidden;
+    /* NO overflow:hidden — avoids clipping sticky headers/tooltips */
   }
   .card-header {
     background: var(--kr-panel) !important;
-    border-color: var(--kr-line) !important;
-    padding: 14px 18px !important;
+    border-bottom: 1px solid var(--kr-line) !important;
+    padding: 12px 16px !important;
     font-weight: 600;
     font-size: 13px;
   }
-  .card-body { padding: 18px !important; }
+  .card-body { padding: 16px !important; }
 
   /* --- KR Hero Component --- */
   .kr-hero {
     position: relative;
     border-radius: var(--kr-radius);
-    padding: 28px 28px 24px;
+    padding: 22px 22px 20px;
     margin-bottom: 20px;
     overflow: hidden;
     display: flex;
@@ -2677,9 +2700,9 @@ module.exports = function renderAdminStyles() {
     justify-content: space-between;
     gap: 20px;
   }
-  .kr-hero--brand { background: linear-gradient(135deg, #1e3a5f, #0f172a); color: #f8fafc; }
-  .kr-hero--indigo { background: linear-gradient(135deg, #312e81, #1e1b4b); color: #e0e7ff; }
-  .kr-hero--emerald { background: linear-gradient(135deg, #064e3b, #022c22); color: #d1fae5; }
+  .kr-hero--brand { background: linear-gradient(160deg, #1c1c1c, #2d2d2d); color: #f0f0f0; } /* Claude: near-black */
+  .kr-hero--indigo { background: linear-gradient(160deg, #1a1a2e, #1e1e3a); color: #e8e8f0; } /* deep indigo, muted */
+  .kr-hero--emerald { background: linear-gradient(160deg, #0a2010, #0f2b1a); color: #d4edd8; } /* deep forest green */
   .kr-hero--amber { background: linear-gradient(135deg, #78350f, #451a03); color: #fef3c7; }
   .kr-hero--slate { background: linear-gradient(135deg, #334155, #1e293b); color: #f1f5f9; }
   .kr-hero__orb {
@@ -2689,8 +2712,8 @@ module.exports = function renderAdminStyles() {
     opacity: .3;
     pointer-events: none;
   }
-  .kr-hero__orb--a { width: 200px; height: 200px; top: -60px; right: -40px; background: #3b82f6; }
-  .kr-hero__orb--b { width: 140px; height: 140px; bottom: -40px; left: 30%; background: #8b5cf6; }
+  .kr-hero__orb--a { width: 200px; height: 200px; top: -60px; right: -40px; background: rgba(255,255,255,.06); filter:blur(60px); opacity:.5; }
+  .kr-hero__orb--b { width: 140px; height: 140px; bottom: -40px; left: 30%; background: rgba(255,255,255,.04); filter:blur(50px); opacity:.4; }
   .kr-hero__content { position: relative; z-index: 1; flex: 1; }
   .kr-hero__kicker {
     display: inline-flex;
@@ -2703,7 +2726,7 @@ module.exports = function renderAdminStyles() {
     opacity: .7;
     margin-bottom: 8px;
   }
-  .kr-hero__title { font-size: 22px; font-weight: 800; margin: 0 0 6px; line-height: 1.2; }
+  .kr-hero__title { font-size: 20px; font-weight: 700; margin: 0 0 6px; line-height: 1.25; letter-spacing: -.01em; }
   .kr-hero__desc { font-size: 13px; opacity: .75; margin: 0; max-width: 600px; line-height: 1.5; }
   .kr-hero__badges { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
   .kr-hero__badge {
@@ -2720,7 +2743,7 @@ module.exports = function renderAdminStyles() {
   .kr-hero__actions { position: relative; z-index: 1; flex-shrink: 0; }
 
   /* --- KR Card Component --- */
-  .kr-card { transition: transform .2s, box-shadow .2s; }
+  .kr-card { transition: box-shadow .2s; }  /* no transform — Claude flat */
   .kr-card:hover { box-shadow: var(--kr-shadow-lg) !important; }
   .kr-card__header {
     display: flex !important;
@@ -2804,8 +2827,8 @@ module.exports = function renderAdminStyles() {
 
   /* --- Badge Override --- */
   .badge-blue {
-    background: var(--kr-accent-soft) !important;
-    color: var(--kr-accent) !important;
+    background: var(--kr-accent-blue-soft) !important;
+    color: var(--kr-accent-blue) !important;
     font-weight: 600;
     border-radius: 6px;
     padding: 3px 8px;
@@ -2845,11 +2868,11 @@ module.exports = function renderAdminStyles() {
     border-radius: var(--kr-radius-sm) !important;
     font-weight: 600;
     font-size: 13px;
-    padding: 8px 16px;
+    padding: 7px 14px;
   }
   .btn-primary:hover {
-    background: #1d4ed8 !important;
-    border-color: #1d4ed8 !important;
+    background: #b5593a !important;   /* warm darker */
+    border-color: #b5593a !important;
   }
   .btn-success-soft {
     background: var(--kr-green-soft) !important;
@@ -2918,7 +2941,7 @@ module.exports = function renderAdminStyles() {
     border: 1px solid rgba(255,255,255,.18);
     border-radius: var(--kr-radius-sm);
     padding: 12px 14px;
-    background: rgba(255,255,255,.08);
+    background: rgba(255,255,255,.06);  /* very subtle */
     backdrop-filter: blur(8px);
     position: relative;
     z-index: 1;
@@ -3042,6 +3065,166 @@ module.exports = function renderAdminStyles() {
   @media (max-width: 768px) {
     .kr-users-kpi-grid { grid-template-columns: 1fr; }
     .kr-users-top-grid  { grid-template-columns: 1fr; }
+  }
+
+  /* ─── kr-page-header (Claude-like simple page title bar) ─── */
+  .kr-page-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 0 0 20px;
+    margin-bottom: 4px;
+    border-bottom: 1px solid var(--kr-line);
+  }
+  .kr-ph__left {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    min-width: 0;
+  }
+  .kr-ph__icon {
+    width: 36px;
+    height: 36px;
+    flex-shrink: 0;
+    border-radius: 9px;
+    background: rgba(0,0,0,.06);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    color: var(--kr-muted);
+  }
+  .kr-ph__copy { min-width: 0; }
+  .kr-ph__title {
+    font-size: 17px;
+    font-weight: 700;
+    color: var(--kr-text);
+    margin: 0 0 3px;
+    letter-spacing: -.01em;
+    line-height: 1.25;
+  }
+  .kr-ph__subtitle {
+    font-size: 13px;
+    color: var(--kr-muted);
+    margin: 0;
+    line-height: 1.4;
+  }
+  .kr-ph__actions {
+    flex-shrink: 0;
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+  }
+  @media (max-width: 640px) {
+    .kr-page-header {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+    .kr-ph__actions { width: 100%; }
+    .kr-ph__actions .btn { flex: 1; }
+  }
+
+  /* ──────────────────────────────────────────────────────────────────
+     VERTICAL TAB PANEL — Claude/Linear style (overrides horizontal)
+     Wrapper:  .svc-vtab-shell  (new, wraps old card-body p-0)
+     Left nav: .svc-vnav         with .svc-vnav__item buttons
+     Content:  .svc-vcontent     with children .svc-tab-pane (unchanged)
+     switchSvcTab() works unchanged — it hides/shows .svc-tab-pane
+     ────────────────────────────────────────────────────────────────── */
+
+  /* Outer flex container */
+  .svc-vtab-shell {
+    display: flex;
+    align-items: flex-start;
+    gap: 0;
+    min-height: 320px;
+  }
+
+  /* Left nav column */
+  .svc-vnav {
+    flex-shrink: 0;
+    width: 160px;
+    border-right: 1px solid var(--kr-line);
+    padding: 12px 8px;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    background: #fafafa;
+  }
+  .svc-vnav__item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 9px 10px;
+    border-radius: 7px;
+    border: none;
+    background: transparent;
+    color: var(--kr-muted);
+    font-size: 12px;
+    font-weight: 500;
+    cursor: pointer;
+    text-align: left;
+    transition: background .13s, color .13s;
+    width: 100%;
+  }
+  .svc-vnav__item:hover {
+    background: rgba(0,0,0,.04);
+    color: var(--kr-text);
+  }
+  .svc-vnav__item.active {
+    background: rgba(201,100,66,.09);   /* warm accent soft */
+    color: var(--kr-accent);
+    font-weight: 600;
+  }
+  .svc-vnav__item i {
+    font-size: 13px;
+    width: 16px;
+    text-align: center;
+    flex-shrink: 0;
+  }
+  .svc-vnav__label { line-height: 1.2; }
+
+  /* Right content column */
+  .svc-vcontent {
+    flex: 1;
+    min-width: 0;
+    overflow: hidden;
+  }
+  /* pane padding inside vertical layout */
+  .svc-vtab-shell .svc-tab-pane {
+    padding: 20px 22px;
+    display: none;
+  }
+  .svc-vtab-shell .svc-tab-pane:first-child,
+  .svc-vtab-shell .svc-tab-pane[style*="display: block"],
+  .svc-vtab-shell .svc-tab-pane[style*="display:block"] {
+    display: block;
+  }
+
+  /* Mobile: fall back to horizontal scroll nav */
+  @media (max-width: 768px) {
+    .svc-vtab-shell { flex-direction: column; }
+    .svc-vnav {
+      width: 100%;
+      flex-direction: row;
+      flex-wrap: nowrap;
+      overflow-x: auto;
+      scrollbar-width: thin;
+      border-right: none;
+      border-bottom: 1px solid var(--kr-line);
+      padding: 8px 10px;
+      gap: 4px;
+      background: #fafafa;
+    }
+    .svc-vnav__item {
+      flex-shrink: 0;
+      white-space: nowrap;
+    }
+    .svc-vcontent { width: 100%; }
+    .svc-vtab-shell .svc-tab-pane { padding: 16px 14px; }
   }
 
 </style>
