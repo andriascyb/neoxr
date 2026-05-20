@@ -2891,6 +2891,70 @@ module.exports = function renderAdminStyles() {
     .kr-hero__title { font-size: 18px; }
     .kr-pageheader__title { font-size: 16px !important; }
   }
+
+  /* ─── kr-info-box (WA provider, info banners) ─── */
+  .kr-info-box {
+    background: rgba(37,99,235,.05);
+    border: 1px solid rgba(37,99,235,.15);
+    border-radius: var(--kr-radius-sm);
+  }
+
+  /* ─── kr-skeleton-row (loading placeholder) ─── */
+  .kr-skeleton-row {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--kr-muted);
+    font-size: 13px;
+  }
+
+  /* ─── kr-dash-metrics (dashboard hero right column) ─── */
+  .kr-dash-metrics {
+    display: grid;
+    gap: 10px;
+    min-width: 200px;
+  }
+  .kr-dash-metric {
+    border: 1px solid rgba(255,255,255,.18);
+    border-radius: var(--kr-radius-sm);
+    padding: 12px 14px;
+    background: rgba(255,255,255,.08);
+    backdrop-filter: blur(8px);
+    position: relative;
+    z-index: 1;
+  }
+  .kr-dash-metric span {
+    display: block;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: .1em;
+    color: rgba(226,241,255,.7);
+    font-weight: 700;
+    margin-bottom: 4px;
+  }
+  .kr-dash-metric strong {
+    display: block;
+    font-size: 24px;
+    font-weight: 800;
+    color: #fff;
+    letter-spacing: -.02em;
+    font-variant-numeric: tabular-nums;
+  }
+  @media (max-width: 768px) {
+    .kr-dash-metrics {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      min-width: 0;
+      width: 100%;
+    }
+    .kr-dash-metric strong { font-size: 18px; }
+  }
+
+  /* ─── kr-status-pill--error (not in base set) ─── */
+  .kr-status-pill--error {
+    color: var(--kr-red);
+    background: var(--kr-red-soft);
+  }
+
 </style>
 `;
 };
