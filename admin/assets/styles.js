@@ -2955,6 +2955,95 @@ module.exports = function renderAdminStyles() {
     background: var(--kr-red-soft);
   }
 
+  /* ─── kr-card__footer ─── */
+  .kr-card__footer {
+    padding: 10px 18px;
+    border-top: 1px solid var(--kr-line);
+    background: var(--kr-panel);
+    font-size: 12px;
+    color: var(--kr-muted);
+  }
+
+  /* ─── Users KPI grid (fase 3) ─── */
+  .kr-users-kpi-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 14px;
+    margin: 20px 0 14px;
+  }
+  .kr-users-kpi-card {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 16px;
+    border-radius: var(--kr-radius);
+    background: var(--kr-panel);
+    border: 1px solid var(--kr-line);
+    box-shadow: var(--kr-shadow);
+  }
+  .kr-users-kpi-card span {
+    display: block;
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: .5px;
+    color: var(--kr-muted);
+    margin-bottom: 4px;
+  }
+  .kr-users-kpi-card strong {
+    display: block;
+    font-size: 18px;
+    font-weight: 800;
+    color: var(--kr-text);
+    font-variant-numeric: tabular-nums;
+  }
+
+  /* ─── Users Top grid (fase 3) ─── */
+  .kr-users-top-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 14px;
+    margin-bottom: 20px;
+  }
+  .kr-users-top-card {
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    padding: 16px;
+    border-radius: var(--kr-radius);
+    background: var(--kr-panel);
+    border: 1px solid var(--kr-line);
+    box-shadow: var(--kr-shadow);
+  }
+  .kr-users-top-icon {
+    width: 42px;
+    height: 42px;
+    border-radius: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    flex-shrink: 0;
+  }
+  .kr-users-top-label {
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: .5px;
+    color: var(--kr-muted);
+    margin-bottom: 8px;
+  }
+  .kr-users-top-list {
+    font-size: 12px;
+    color: var(--kr-muted);
+    line-height: 1.6;
+  }
+
+  @media (max-width: 768px) {
+    .kr-users-kpi-grid { grid-template-columns: 1fr; }
+    .kr-users-top-grid  { grid-template-columns: 1fr; }
+  }
+
 </style>
 `;
 };
